@@ -1,0 +1,9 @@
+<!-- public/favicon.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#090a13" />
+  <g transform="translate(25 16) skewX(-13)">
+    <path d="M0 9.6h6V32H0z" fill="#6de6f8" />
+    <path d="M10 0h6v32h-6z" fill="#a879ff" />
+    <path d="M20 17.6h6V32h-6z" fill="#f989d5" />
+  </g>
+</svg>

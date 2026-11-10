@@ -1,0 +1,7 @@
+{
+  "approved": true,
+  "direction": "Baja nocturne",
+  "composition": "Focus physique",
+  "prompt": "High-fidelity desktop web game UI composition for DUSTBOUND. Full-viewport side-scrolling desert terrain, deep petrol-blue night sky, ochre modular hills, coral two-wheel buggy with visible suspension, large central timer, cyan route line, compact restart and four corner-mounted mobile controls.",
+  "implementationNotes": "North star only. Core UI text and controls remain semantic DOM; terrain, buggy and suspension remain interactive Phaser and Matter.js geometry. No raster artwork is shipped in the game."
+}

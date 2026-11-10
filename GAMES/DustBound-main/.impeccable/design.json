@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-01T08:59:24Z",
+  "title": "Design System: DustBound",
+  "extensions": {
+    "colorMeta": {
+      "night": {
+        "role": "neutral",
+        "displayName": "Nuit pétrole",
+        "canonical": "#061a27",
+        "tonalRamp": ["oklch(15% 0.035 235)", "oklch(24% 0.035 235)", "oklch(34% 0.035 235)", "oklch(46% 0.035 235)", "oklch(59% 0.035 235)", "oklch(72% 0.03 235)", "oklch(84% 0.02 235)", "oklch(95% 0.01 235)"]
+      },
+      "night-soft": {
+        "role": "neutral",
+        "displayName": "Nuit pétrole douce",
+        "canonical": "#0b2b3b",
+        "tonalRamp": ["oklch(15% 0.045 235)", "oklch(24% 0.045 235)", "oklch(34% 0.045 235)", "oklch(46% 0.045 235)", "oklch(59% 0.04 235)", "oklch(72% 0.03 235)", "oklch(84% 0.02 235)", "oklch(95% 0.01 235)"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Encre",
+        "canonical": "#031018",
+        "tonalRamp": ["oklch(15% 0.025 235)", "oklch(24% 0.025 235)", "oklch(34% 0.025 235)", "oklch(46% 0.025 235)", "oklch(59% 0.02 235)", "oklch(72% 0.018 235)", "oklch(84% 0.012 235)", "oklch(95% 0.006 235)"]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Crème poussière",
+        "canonical": "#f5e4bd",
+        "tonalRamp": ["oklch(15% 0.045 82)", "oklch(24% 0.045 82)", "oklch(34% 0.045 82)", "oklch(46% 0.045 82)", "oklch(59% 0.045 82)", "oklch(72% 0.04 82)", "oklch(84% 0.035 82)", "oklch(95% 0.025 82)"]
+      },
+      "coral": {
+        "role": "primary",
+        "displayName": "Corail buggy",
+        "canonical": "#ed674b",
+        "tonalRamp": ["oklch(15% 0.15 33)", "oklch(24% 0.16 33)", "oklch(34% 0.17 33)", "oklch(46% 0.18 33)", "oklch(59% 0.18 33)", "oklch(72% 0.14 33)", "oklch(84% 0.08 33)", "oklch(95% 0.03 33)"]
+      },
+      "coral-deep": {
+        "role": "primary",
+        "displayName": "Corail profond",
+        "canonical": "#9e382f",
+        "tonalRamp": ["oklch(15% 0.12 29)", "oklch(24% 0.13 29)", "oklch(34% 0.14 29)", "oklch(46% 0.15 29)", "oklch(59% 0.14 29)", "oklch(72% 0.11 29)", "oklch(84% 0.07 29)", "oklch(95% 0.03 29)"]
+      },
+      "cyan": {
+        "role": "secondary",
+        "displayName": "Cyan balise",
+        "canonical": "#28d7dd",
+        "tonalRamp": ["oklch(15% 0.09 194)", "oklch(24% 0.1 194)", "oklch(34% 0.11 194)", "oklch(46% 0.12 194)", "oklch(59% 0.13 194)", "oklch(72% 0.12 194)", "oklch(84% 0.08 194)", "oklch(95% 0.03 194)"]
+      },
+      "mesa-far": {
+        "role": "neutral",
+        "displayName": "Mésa lointaine",
+        "canonical": "#0a3041",
+        "tonalRamp": ["oklch(15% 0.045 230)", "oklch(24% 0.045 230)", "oklch(34% 0.045 230)", "oklch(46% 0.045 230)", "oklch(59% 0.04 230)", "oklch(72% 0.03 230)", "oklch(84% 0.02 230)", "oklch(95% 0.01 230)"]
+      },
+      "mesa-near": {
+        "role": "neutral",
+        "displayName": "Mésa proche",
+        "canonical": "#124253",
+        "tonalRamp": ["oklch(15% 0.05 226)", "oklch(24% 0.05 226)", "oklch(34% 0.05 226)", "oklch(46% 0.05 226)", "oklch(59% 0.045 226)", "oklch(72% 0.035 226)", "oklch(84% 0.02 226)", "oklch(95% 0.01 226)"]
+      },
+      "platform": {
+        "role": "neutral",
+        "displayName": "Plateforme minérale",
+        "canonical": "#102f3d",
+        "tonalRamp": ["oklch(15% 0.035 226)", "oklch(24% 0.04 226)", "oklch(34% 0.04 226)", "oklch(46% 0.04 226)", "oklch(59% 0.035 226)", "oklch(72% 0.028 226)", "oklch(84% 0.018 226)", "oklch(95% 0.008 226)"]
+      },
+      "earth": {
+        "role": "tertiary",
+        "displayName": "Ocre terre",
+        "canonical": "#9f542e",
+        "tonalRamp": ["oklch(15% 0.1 53)", "oklch(24% 0.11 53)", "oklch(34% 0.12 53)", "oklch(46% 0.13 53)", "oklch(59% 0.12 53)", "oklch(72% 0.09 53)", "oklch(84% 0.055 53)", "oklch(95% 0.02 53)"]
+      },
+      "earth-ridge": {
+        "role": "tertiary",
+        "displayName": "Ocre crête",
+        "canonical": "#d68945",
+        "tonalRamp": ["oklch(15% 0.1 66)", "oklch(24% 0.11 66)", "oklch(34% 0.12 66)", "oklch(46% 0.13 66)", "oklch(59% 0.13 66)", "oklch(72% 0.1 66)", "oklch(84% 0.06 66)", "oklch(95% 0.025 66)"]
+      },
+      "earth-highlight": {
+        "role": "tertiary",
+        "displayName": "Ocre lumière",
+        "canonical": "#f0b65e",
+        "tonalRamp": ["oklch(15% 0.105 76)", "oklch(24% 0.115 76)", "oklch(34% 0.125 76)", "oklch(46% 0.135 76)", "oklch(59% 0.14 76)", "oklch(72% 0.12 76)", "oklch(84% 0.075 76)", "oklch(95% 0.03 76)"]
+      },
+      "tire": {
+        "role": "neutral",
+        "displayName": "Gomme",
+        "canonical": "#02080d",
+        "tonalRamp": ["oklch(15% 0.012 235)", "oklch(24% 0.012 235)", "oklch(34% 0.012 235)", "oklch(46% 0.012 235)", "oklch(59% 0.01 235)", "oklch(72% 0.008 235)", "oklch(84% 0.006 235)", "oklch(95% 0.003 235)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Chrono / Message", "purpose": "Chronomètre central et événements de course." },
+      "title": { "displayName": "Signalétique", "purpose": "Nom DustBound et actions condensées." },
+      "body": { "displayName": "Instruction", "purpose": "Consignes secondaires lisibles rapidement." },
+      "label": { "displayName": "Jalon", "purpose": "Checkpoint et progression en capitales espacées." }
+    },
+    "shadows": [
+      { "name": "hud-text", "value": "0 3px 12px rgb(0 0 0 / 55%)", "purpose": "Maintient le HUD lisible sur le décor en mouvement." },
+      { "name": "control-lift", "value": "0 8px 24px rgb(0 0 0 / 28%)", "purpose": "Détache le restart du canvas." },
+      { "name": "touch-lift", "value": "0 8px 28px rgb(0 0 0 / 32%)", "purpose": "Détache les grandes cibles tactiles." },
+      { "name": "message-depth", "value": "0 6px 18px rgb(0 0 0 / 70%)", "purpose": "Protège les messages centraux sur toute portion du terrain." }
+    ],
+    "motion": [
+      { "name": "status-fade", "value": "opacity 180ms ease-out", "purpose": "Fait apparaître ou disparaître un message sans interrompre la conduite." },
+      { "name": "status-rise", "value": "transform 280ms cubic-bezier(.16,1,.3,1)", "purpose": "Accompagne le message d'une courte montée amortie." },
+      { "name": "touch-press", "value": "transform: scale(0.94)", "purpose": "Confirme immédiatement une pression maintenue." }
+    ],
+    "breakpoints": [
+      { "name": "compact-hud", "value": "720px" },
+      { "name": "coarse-pointer", "value": "(hover: none), (pointer: coarse)" },
+      { "name": "portrait-touch", "value": "(orientation: portrait) and (hover: none)" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Restart Button",
+      "kind": "button",
+      "refersTo": "restart-button",
+      "description": "Action de recommencement toujours visible avec raccourci clavier sur desktop.",
+      "html": "<button class=\"ds-restart\" type=\"button\" aria-label=\"Recommencer la course\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\"><path d=\"M20 11a8 8 0 1 0-2.34 5.66M20 4v7h-7\"/></svg><span>RESTART</span><kbd>R</kbd></button>",
+      "css": ".ds-restart { display:grid; grid-template-columns:24px auto auto; align-items:center; gap:8px; min-height:48px; padding:8px 10px; color:var(--cream,#f5e4bd); background:rgb(6 26 39 / 88%); border:2px solid var(--cream,#f5e4bd); border-radius:12px; box-shadow:0 8px 24px rgb(0 0 0 / 28%); cursor:pointer; } .ds-restart:hover { background:var(--coral,#ed674b); color:var(--ink,#031018); } .ds-restart:focus-visible { outline:3px solid var(--cyan,#28d7dd); outline-offset:3px; } .ds-restart svg { width:24px; fill:none; stroke:currentColor; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; } .ds-restart span { font:1.15rem/1 'Bebas Neue',sans-serif; letter-spacing:.06em; } .ds-restart kbd { padding:3px 6px; color:inherit; background:rgb(245 228 189 / 14%); border-radius:5px; font-size:.65rem; }"
+    },
+    {
+      "name": "Route Progress",
+      "kind": "custom",
+      "description": "Rail de progression cyan avec marqueur losange lié à la position du buggy.",
+      "html": "<div class=\"ds-route\" role=\"progressbar\" aria-label=\"Progression\" aria-valuenow=\"42\" aria-valuemin=\"0\" aria-valuemax=\"100\"><i></i><b></b></div>",
+      "css": ".ds-route { position:relative; width:224px; height:18px; margin:14px 8px 0; border-top:3px solid rgb(40 215 221 / 35%); } .ds-route i { position:absolute; top:-3px; left:0; width:42%; height:3px; background:var(--cyan,#28d7dd); } .ds-route b { position:absolute; top:-8px; left:42%; width:13px; height:13px; border:3px solid var(--cream,#f5e4bd); background:var(--night,#061a27); transform:translateX(-50%) rotate(45deg); }"
+    },
+    {
+      "name": "Status Message",
+      "kind": "custom",
+      "refersTo": "status-message",
+      "description": "Annonce centrale temporaire pour départ, respawn et arrivée.",
+      "html": "<div class=\"ds-status\" role=\"status\">REMISE SUR ROUES<small>RETOUR AU CHECKPOINT</small></div>",
+      "css": ".ds-status { width:min(88vw,560px); color:var(--cream,#f5e4bd); font:4rem/.9 'Bebas Neue',sans-serif; letter-spacing:.03em; text-align:center; text-shadow:0 6px 18px rgb(0 0 0 / 70%); transition:opacity 180ms ease-out,transform 280ms cubic-bezier(.16,1,.3,1); } .ds-status small { display:block; margin-top:10px; color:var(--cyan,#28d7dd); font:700 .78rem/1.3 ui-sans-serif,system-ui,sans-serif; letter-spacing:.1em; } @media (prefers-reduced-motion:reduce) { .ds-status { transition:none; } }"
+    },
+    {
+      "name": "Drive Control",
+      "kind": "button",
+      "refersTo": "touch-control",
+      "description": "Grande cible tactile circulaire pour accélérer, freiner ou reculer.",
+      "html": "<button class=\"ds-touch ds-drive\" type=\"button\" aria-label=\"Accélérer\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\"><path d=\"m9 18 6-6-6-6\"/></svg></button>",
+      "css": ".ds-touch { width:clamp(64px,11vw,88px); height:clamp(64px,11vw,88px); display:grid; place-items:center; padding:0; color:var(--cream,#f5e4bd); background:rgb(3 16 24 / 78%); border:2px solid rgb(245 228 189 / 78%); border-radius:50%; box-shadow:0 8px 28px rgb(0 0 0 / 32%); touch-action:none; } .ds-drive { border-color:var(--coral,#ed674b); } .ds-touch:focus-visible { outline:3px solid var(--cyan,#28d7dd); outline-offset:3px; } .ds-touch:active,.ds-touch[data-active='true'] { color:var(--ink,#031018); background:var(--coral,#ed674b); border-color:var(--coral,#ed674b); transform:scale(.94); } .ds-touch svg { width:40%; fill:none; stroke:currentColor; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round; }"
+    },
+    {
+      "name": "Tilt Control",
+      "kind": "button",
+      "refersTo": "touch-control",
+      "description": "Cible tactile secondaire pour corriger l'assiette du buggy en l'air.",
+      "html": "<button class=\"ds-touch ds-tilt\" type=\"button\" aria-label=\"Incliner le nez vers le haut\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\"><path d=\"M5 15h14M8 12l4-5 4 5\"/></svg></button>",
+      "css": ".ds-touch { width:clamp(64px,11vw,88px); height:clamp(64px,11vw,88px); display:grid; place-items:center; padding:0; color:var(--cream,#f5e4bd); background:rgb(3 16 24 / 78%); border:2px solid rgb(245 228 189 / 78%); border-radius:50%; box-shadow:0 8px 28px rgb(0 0 0 / 32%); touch-action:none; } .ds-tilt { width:clamp(56px,9vw,72px); height:clamp(56px,9vw,72px); } .ds-touch:focus-visible { outline:3px solid var(--cyan,#28d7dd); outline-offset:3px; } .ds-touch:active,.ds-touch[data-active='true'] { color:var(--ink,#031018); background:var(--coral,#ed674b); border-color:var(--coral,#ed674b); transform:scale(.94); } .ds-touch svg { width:40%; fill:none; stroke:currentColor; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round; }"
+    },
+    {
+      "name": "Orientation Notice",
+      "kind": "custom",
+      "description": "Consigne compacte affichée sur téléphone tenu en portrait.",
+      "html": "<div class=\"ds-rotate\" role=\"status\">Tournez votre appareil en mode paysage pour mieux piloter.</div>",
+      "css": ".ds-rotate { max-width:420px; padding:12px 16px; color:var(--cream,#f5e4bd); background:var(--night-soft,#0b2b3b); border-radius:12px; box-shadow:0 8px 24px rgb(0 0 0 / 38%); text-align:center; font:.82rem ui-sans-serif,system-ui,sans-serif; }"
+    },
+    {
+      "name": "Rally Marker",
+      "kind": "custom",
+      "description": "Portique START ou FINISH intégré au monde du jeu.",
+      "html": "<div class=\"ds-gate\"><span>FINISH</span><i aria-hidden=\"true\"></i></div>",
+      "css": ".ds-gate { position:relative; width:124px; height:150px; color:var(--night,#061a27); border-top:16px solid var(--cyan,#28d7dd); border-left:16px solid var(--cyan,#28d7dd); border-right:16px solid var(--cyan,#28d7dd); } .ds-gate span { position:absolute; top:-15px; left:50%; transform:translateX(-50%); font:18px/1 'Bebas Neue',sans-serif; letter-spacing:2px; } .ds-gate i { position:absolute; top:8px; left:50%; width:18px; height:18px; background:var(--night,#061a27); clip-path:polygon(50% 100%,0 0,100% 0); transform:translateX(-50%); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Baja nocturne",
+    "overview": "DustBound transpose une course tout-terrain sous un ciel pétrole : une signalétique de rallye mate, franche et compacte se superpose à une scène vectorielle où le buggy corail et ses suspensions restent les protagonistes. L’interface sert la sensation de conduite et s’efface du centre de l’image, sans encadrer le jeu dans du chrome générique.\n\nLa composition « Focus physique » maintient le véhicule dans le tiers gauche, révèle l’obstacle suivant et donne au chrono central la priorité typographique. La profondeur vient des mésas en parallaxe, du terrain ocre stratifié et de rares ombres fonctionnelles ; le cyan sert de jalon de progression, jamais de décoration diffuse.",
+    "keyCharacteristics": [
+      "Palette pétrole, ocre, corail, cyan et crème à contraste élevé.",
+      "Surface mate inspirée de la signalétique rallye Baja.",
+      "Profondeur vectorielle par parallaxe, sans décor raster.",
+      "Chrono central dominant et données de course immédiatement lisibles.",
+      "Contrôles tactiles robustes, séparés dans les coins et libérant le centre."
+    ],
+    "rules": [
+      { "name": "The Signal Rule", "body": "Le corail indique le véhicule ou une action immédiate ; le cyan indique une direction, une progression ou un focus.", "section": "colors" },
+      { "name": "The Dust Line Rule", "body": "Le terrain conserve ses trois ocres superposés afin que le relief physique reste lisible à toute vitesse.", "section": "colors" },
+      { "name": "The Chrono First Rule", "body": "Le chrono reste le plus grand élément typographique fixe et utilise toujours des chiffres tabulaires.", "section": "typography" },
+      { "name": "The Clear Center Rule", "body": "Aucun contrôle permanent ne doit occuper la trajectoire visuelle entre le buggy et l’obstacle suivant.", "section": "layout" },
+      { "name": "The Matte Rally Rule", "body": "Les surfaces restent opaques ou légèrement translucides et mates ; aucune brillance, aucun verre et aucun halo décoratif.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do préserver le chrono au centre et le buggy dans le tiers gauche de la composition.",
+      "Do réserver le corail à l’action et le cyan au guidage, à la progression et au focus.",
+      "Do garder les contrôles tactiles dans les coins, avec des cibles robustes et des états actifs non ambigus.",
+      "Do construire la profondeur avec les couches vectorielles et leurs facteurs de parallaxe."
+    ],
+    "donts": [
+      "Don't enfermer la scène dans des cartes, panneaux ou barres de navigation d’application.",
+      "Don't ajouter de décor raster, de verre, de dégradés brillants ou de halos décoratifs.",
+      "Don't réduire la lisibilité des états essentiels à un changement de couleur seul.",
+      "Don't placer de contrôle permanent au centre de la trajectoire visuelle."
+    ]
+  }
+}

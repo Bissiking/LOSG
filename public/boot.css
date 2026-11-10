@@ -1,0 +1,54 @@
+/* public/boot.css — shared by the initial HTML and the React startup screen. */
+.boot-screen {
+  position: fixed; inset: 0; z-index: 100;
+  display: grid; place-items: center; box-sizing: border-box;
+  padding: 32px 24px 110px; overflow: auto;
+  min-height: 100%; background: #090a13; color: #f5f3ff;
+  font-family: 'Segoe UI', system-ui, sans-serif; text-align: center;
+}
+.boot-identity { width: min(100%, 360px); }
+.boot-symbol {
+  display: flex; justify-content: center; align-items: flex-end;
+  gap: 10px; width: 100px; height: 80px; margin: 0 auto 30px;
+  transform: skewX(-13deg);
+}
+.boot-symbol > span { display: block; width: 15px; height: 70%; background: #6de6f8; transform-origin: bottom; }
+.boot-symbol > span:nth-child(2) { height: 100%; background: #a879ff; }
+.boot-symbol > span:nth-child(3) { height: 45%; background: #f989d5; }
+.boot-wordmark { font-size: clamp(36px, 9vw, 48px); font-weight: 750; line-height: 1.15; letter-spacing: .16em; padding-left: .16em; }
+.boot-subtitle { margin-top: 10px; color: #bfbbd0; font-size: 12px; letter-spacing: .18em; }
+.boot-status { display: flex; flex-direction: column; align-items: center; gap: 17px; margin-top: 46px; color: #bfbbd0; font-size: 12px; line-height: 1.6; }
+.boot-track { display: block; position: relative; width: 160px; height: 2px; overflow: hidden; background: #30283f; }
+.boot-track > span { display: block; width: 42%; height: 100%; background: #a879ff; }
+.boot-skip {
+  position: absolute; right: max(24px, env(safe-area-inset-right)); bottom: max(28px, env(safe-area-inset-bottom));
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: 44px; padding: 10px 14px; border: 1px solid #63586f; border-radius: 8px;
+  background: transparent; color: #e3dced; font: inherit; font-size: 12px; cursor: pointer;
+}
+.boot-skip > span { color: #bfbbd0; font-size: 10px; }
+.boot-skip:hover { border-color: #6de6f8; color: #6de6f8; }
+.boot-skip:focus-visible { outline: 2px solid #6de6f8; outline-offset: 5px; }
+.boot-signature { position: absolute; bottom: 43px; left: max(24px, env(safe-area-inset-left)); color: #bfbbd0; font-size: 10px; letter-spacing: .12em; }
+.boot-signature > span { color: #f989d5; margin: 0 7px; }
+.boot-animated .boot-symbol > span { animation: boot-bar-in 650ms cubic-bezier(.16, 1, .3, 1) both; }
+.boot-animated .boot-symbol > span:nth-child(2) { animation-delay: 100ms; }
+.boot-animated .boot-symbol > span:nth-child(3) { animation-delay: 200ms; }
+.boot-animated .boot-track > span { animation: boot-scan 1200ms ease-in-out infinite alternate; }
+.boot-animated.boot-leaving { animation: boot-out 280ms ease-out both; }
+.boot-leaving .boot-track > span { width: 100%; transform: none; animation: none; }
+.boot-leaving .boot-symbol > span { animation: none; }
+.boot-noscript { position: fixed; z-index: 101; inset: auto 24px 100px; margin: 0; color: #f5f3ff; text-align: center; font: 14px/1.5 system-ui, sans-serif; }
+@keyframes boot-bar-in { from { transform: scaleY(.12); opacity: .35; } to { transform: scaleY(1); opacity: 1; } }
+@keyframes boot-scan { from { transform: translateX(-100%); } to { transform: translateX(340%); } }
+@keyframes boot-out { to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .boot-screen, .boot-screen * { animation: none !important; transition: none !important; }
+}
+@media (max-height: 440px) {
+  .boot-screen { padding-bottom: 85px; padding-top: 20px; }
+  .boot-symbol { height: 42px; width: 64px; gap: 6px; margin-bottom: 14px; }
+  .boot-symbol > span { width: 9px; }
+  .boot-wordmark { font-size: 30px; }
+  .boot-status { margin-top: 20px; gap: 10px; }
+}

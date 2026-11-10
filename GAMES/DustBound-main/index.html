@@ -1,0 +1,100 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#061a27" />
+    <meta name="description" content="DustBound, une démo technique de buggy arcade en physique Matter.js." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23061a27%22/><path d=%22M16 4 28 16 16 28 4 16Z%22 fill=%22none%22 stroke=%22%23ed674b%22 stroke-width=%224%22/></svg>" />
+    <title>DustBound — Démo buggy arcade</title>
+  </head>
+  <body>
+    <!--
+      THESIS: La conduite et les suspensions occupent la scène; aucun écran de jeu générique ne les enferme dans du chrome.
+      OWN-WORLD: Nuit pétrole, piste ocre, buggy corail, jalons cyan et signalétique mate de rallye Baja.
+      STORY: Partir, sentir le terrain, maîtriser les sauts, rejoindre l'arrivée et améliorer son chrono.
+      FIRST VIEWPORT: Le jeu remplit l'écran, le buggy reste au tiers gauche, le chrono domine en haut et les commandes libèrent le centre.
+      FORM: Composition Focus physique, troisième piste approuvée, seed 446d3fb7.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+    -->
+    <main id="app" aria-label="DustBound">
+      <div id="game" aria-label="Zone de jeu"></div>
+      <div id="hud" class="hud">
+        <section class="telemetry" aria-label="Progression et vitesse">
+          <div class="brand-lockup">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <div>
+              <h1>DUSTBOUND</h1>
+              <p id="checkpoint-label">DÉPART</p>
+            </div>
+          </div>
+          <div id="speed-gauge" class="speed-gauge" role="img" aria-label="Vitesse : 0 kilomètres par heure">
+            <svg aria-hidden="true" viewBox="0 0 128 70">
+              <path class="speed-track" pathLength="100" d="M14 59A50 50 0 0 1 114 59" />
+              <path id="speed-arc" class="speed-arc" pathLength="100" d="M14 59A50 50 0 0 1 114 59" />
+              <path class="speed-redline" pathLength="100" d="M14 59A50 50 0 0 1 114 59" />
+              <g class="speed-ticks">
+                <path d="M14 59h8M28 25l6 6M64 9v9M100 25l-6 6M114 59h-8" />
+              </g>
+            </svg>
+            <span><b id="speed-value">000</b><small>KM/H</small></span>
+          </div>
+        </section>
+        <section class="timer" aria-label="Chronomètre">
+          <span id="timer-value">00:00.00</span>
+          <div class="route-line" aria-hidden="true"><i id="route-progress"></i><b id="route-marker"></b></div>
+        </section>
+        <div class="hud-actions">
+          <button id="editor-button" class="editor-button" type="button" aria-label="Ouvrir l’éditeur de niveau">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4Zm9-13 4 4M4 13V4h9" /></svg>
+            <span>ÉDITEUR</span>
+          </button>
+          <button id="restart-button" class="restart-button" type="button" aria-label="Recommencer la course">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.34 5.66M20 4v7h-7" /></svg>
+            <span>RESTART</span>
+            <kbd>R</kbd>
+          </button>
+        </div>
+      </div>
+      <div id="status-message" class="status-message" role="status" aria-live="assertive"></div>
+      <div id="mobile-controls" class="mobile-controls" aria-label="Commandes tactiles"></div>
+      <div id="rotate-device" class="rotate-device" role="status">Tournez votre appareil en mode paysage pour mieux piloter.</div>
+      <section id="editor-ui" class="editor-ui" aria-label="Éditeur de niveau" hidden>
+        <header class="editor-toolbar">
+          <div class="editor-title">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <div><strong>ÉDITEUR DE PISTE</strong><small id="editor-status">Modifications locales</small></div>
+          </div>
+          <div class="editor-tools" role="toolbar" aria-label="Actions de l’éditeur">
+            <button id="editor-pan-left" type="button" aria-label="Voir la zone précédente">PRÉC.</button>
+            <button id="editor-pan-right" type="button" aria-label="Voir la zone suivante">SUIV.</button>
+            <button id="editor-undo" type="button">ANNULER</button>
+            <button id="editor-add-platform" class="is-accent" type="button">+ PLATEFORME</button>
+            <button id="editor-save" type="button">SAUVER</button>
+            <button id="editor-test" class="is-primary" type="button">TESTER</button>
+            <button id="editor-exit" type="button">QUITTER</button>
+          </div>
+        </header>
+        <aside id="editor-inspector" class="editor-inspector" aria-label="Propriétés de la sélection">
+          <div class="inspector-heading"><strong id="editor-selection-title">AUCUNE SÉLECTION</strong><span id="editor-selection-kind">Cliquez un élément</span></div>
+          <div id="editor-fields" class="editor-fields" hidden>
+            <label>X <input id="editor-x" type="number" step="10" /></label>
+            <label>Y <input id="editor-y" type="number" step="10" /></label>
+            <label id="editor-width-field">LARGEUR <input id="editor-width" type="number" min="80" max="800" step="10" /></label>
+            <label id="editor-angle-field">ANGLE <input id="editor-angle" type="number" min="-45" max="45" step="1" /></label>
+          </div>
+          <button id="editor-delete" class="editor-delete" type="button" hidden>SUPPRIMER LA PLATEFORME</button>
+          <p class="editor-hint">Glissez les points et plateformes. Le repère cyan est le départ, le corail l’arrivée. Molette ou boutons pour parcourir le niveau.</p>
+          <div class="editor-file-actions">
+            <button id="editor-export" type="button">EXPORTER JSON</button>
+            <label for="editor-import">IMPORTER JSON</label>
+            <input id="editor-import" type="file" accept="application/json,.json" />
+            <button id="editor-reset" type="button">RÉINITIALISER</button>
+          </div>
+        </aside>
+      </section>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

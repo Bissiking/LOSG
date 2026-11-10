@@ -1,0 +1,41 @@
+{
+  "name": "luma-os-gaming",
+  "private": true,
+  "version": "0.3.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run typecheck && vite build",
+    "preview": "node scripts/dev.mjs --preview",
+    "test": "node --test tests/*.test.mjs",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.games.json",
+    "start": "tsx scripts/serve.ts",
+    "test:games": "vitest run --config vitest.games.config.ts",
+    "test:integration": "node --test tests/integration/*.test.mjs"
+  },
+  "dependencies": {
+    "@fontsource/bebas-neue": "^5.3.0",
+    "@fontsource/exo-2": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "@fontsource/michroma": "^5.3.0",
+    "lucide-react": "^0.468.0",
+    "phaser": "^3.90.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsx": "^4.23.15",
+    "ws": "^8.22.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/node": "^22.20.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/ws": "^8.18.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.6.3",
+    "vite": "^6.4.5",
+    "vitest": "^5.1.0"
+  }
+}
