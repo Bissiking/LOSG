@@ -1,7 +1,7 @@
 import { after, before, test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { WebSocket } from 'ws';
 
 let processServer;
@@ -23,8 +23,8 @@ before(async () => {
 });
 after(() => processServer?.kill());
 
-test('production serves LOSG and all four game entry points with compiled assets', async () => {
-  for (const path of ['/', '/play/arcline/', '/play/snake/', '/play/dustbound/', '/play/fouria/']) {
+test('production serves LOSG and all six game entry points with compiled assets', async () => {
+  for (const path of ['/', '/play/arcline/', '/play/snake/', '/play/dustbound/', '/play/fouria/', '/play/2048/', '/play/hexgl/']) {
     const response = await fetch(base + path);
     assert.equal(response.status, 200, path);
     assert.match(response.headers.get('content-type'), /text\/html/);
@@ -46,6 +46,29 @@ test('production serves LOSG and all four game entry points with compiled assets
   }
 });
 
+test('legacy games ship original scripts, geometry, textures, audio and licences without archives', async () => {
+  for (const [url, original, mime] of [
+    ['/play/2048/js/game_manager.js', 'GAMES/2048/js/game_manager.js', /javascript/],
+    ['/play/2048/LICENSE.txt', 'GAMES/2048/LICENSE.txt', /text\/plain/],
+    ['/play/hexgl/LICENSE.txt', 'GAMES/HexGL/LICENSE', /text\/plain/],
+    ['/play/hexgl/libs/Three.dev.js', 'GAMES/HexGL/libs/Three.dev.js', /javascript/],
+    ['/play/hexgl/geometries/ships/feisar/feisar.js', 'GAMES/HexGL/geometries/ships/feisar/feisar.js', /javascript/],
+    ['/play/hexgl/textures/tracks/cityscape/collision.png', 'GAMES/HexGL/textures/tracks/cityscape/collision.png', /image\/png/],
+    ['/play/hexgl/textures.full/tracks/cityscape/diffuse.jpg', 'GAMES/HexGL/textures.full/tracks/cityscape/diffuse.jpg', /image\/jpeg/],
+    ['/play/hexgl/audio/bg.ogg', 'GAMES/HexGL/audio/bg.ogg', /audio\/ogg/],
+  ]) {
+    const response = await fetch(base + url);
+    assert.equal(response.status, 200, url);
+    assert.match(response.headers.get('content-type'), mime);
+    assert.deepEqual(Buffer.from(await response.arrayBuffer()), readFileSync(original));
+  }
+  for (const path of ['/play/hexgl/package.zip', '/play/hexgl/launch.coffee', '/play/2048/README.md']) {
+    assert.equal((await fetch(base + path)).status, 404, path);
+  }
+  assert.equal(existsSync('dist/GAMES/HexGL/index.html'), false);
+  assert.equal(existsSync('dist/GAMES/2048/index.html'), false);
+});
+
 test('Arcline ships its manifest and all four unchanged music files', async () => {
   const manifest = await fetch(`${base}/play/arcline/audio/music/manifest.json`);
   assert.equal(manifest.status, 200);
@@ -55,7 +78,7 @@ test('Arcline ships its manifest and all four unchanged music files', async () =
     const response = await fetch(`${base}/play/arcline/audio/music/${encodeURIComponent(file)}`);
     assert.equal(response.status, 200, file);
     assert.equal(response.headers.get('content-type'), 'audio/mpeg');
-    assert.deepEqual(Buffer.from(await response.arrayBuffer()), readFileSync(`GAMES/arcline-1/apps/client/public/audio/music/${file}`));
+    assert.deepEqual(Buffer.from(await response.arrayBuffer()), readFileSync(`GAMES/arcline/apps/client/public/audio/music/${file}`));
   }
 });
 

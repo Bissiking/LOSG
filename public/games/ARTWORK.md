@@ -1,7 +1,13 @@
 <!-- public/games/ARTWORK.md -->
-# Visuels des applications Bissiking
+# Visuels du catalogue LOSG
 
 Complément LUMA OS: Gaming 0.2.0. Les six applications sont réelles ; aucune n’est marquée Démo dans le catalogue. Les illustrations promotionnelles générées sont distinguées ci-dessous des ressources officielles. Elles ne sont jamais annoncées comme des captures du gameplay.
+
+## 2048 et HexGL intégrés
+
+Les paires `2048-cover.svg` / `2048-bg.svg` et `hexgl-cover.svg` / `hexgl-bg.svg` sont exportées en 1280 × 720 et 1920 × 1080 par `scripts/prepare-legacy-art.ps1`.
+
+2048 reprend les tuiles, nombres et couleurs du jeu de Gabriele Cirulli ; la grille est une composition illustrative, pas une partie sauvegardée. HexGL incorpore les fichiers locaux `GAMES/HexGL/css/bg.jpg` et `title.png` de BKcore, inchangés et encodés dans le SVG. Les images sont autonomes et ne chargent aucune ressource distante. Les crédits et licences des jeux restent livrés dans leurs pages.
 
 ## Fouria intégré
 

@@ -5,7 +5,7 @@ import type { Plugin } from 'vite';
 
 // Keep the original game's music in one place; serve and package it unchanged.
 export function arclineAssets(): Plugin {
-  const directory = fileURLToPath(new URL('../GAMES/arcline-1/apps/client/public/audio/music/', import.meta.url));
+  const directory = fileURLToPath(new URL('../GAMES/arcline/apps/client/public/audio/music/', import.meta.url));
   const files = readdirSync(directory).filter((name) => /\.(mp3|json)$/.test(name));
   return {
     name: 'losg-arcline-assets',

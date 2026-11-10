@@ -1,7 +1,7 @@
 <!-- README.md -->
-# LUMA OS: Gaming — 0.2.0
+# LUMA OS: Gaming — 0.3.0
 
-Interface console React + TypeScript + Vite avec palette SPX violet, cyan, rose et noir. Les quatre jeux du dossier `GAMES/` sont compilés et livrés avec LOSG : Arcline, Fouria, LUMA Snake et DustBound. Fouria utilise son serveur WebSocket pour les salles en ligne ; les autres modes fonctionnent sans service distant.
+Interface console React + TypeScript + Vite avec palette SPX violet, cyan, rose et noir. Les six jeux du dossier `GAMES/` sont livrés avec LOSG : Arcline, Fouria, LUMA Snake, DustBound, 2048 et HexGL. Fouria utilise son serveur WebSocket pour les salles en ligne ; les autres modes fonctionnent sans service distant.
 
 ## Démarrer
 
@@ -10,9 +10,9 @@ Node.js 22 LTS recommandé (environnement de vérification : 22.22.2).
 ```sh
 npm ci
 npm run dev       # Vite :5173 + serveur Fouria :3009
-npm run typecheck # LOSG, quatre jeux, serveur et intégration
-npm test          # 23 tests LOSG, menu système et pause
-npm run test:games # 91 tests des moteurs Fouria et Arcline
+npm run typecheck # LOSG, six jeux, serveur et intégration
+npm test          # LOSG, commandes, pause et chronomètre HexGL
+npm run test:games # moteurs Fouria et Arcline
 npm run build     # TypeScript + production dans dist/
 npm run test:integration # après build : HTTP, musiques et partie WebSocket
 npm run preview   # servir dist/ :4173 + serveur Fouria :3009
@@ -24,24 +24,32 @@ Les dépendances sont installées une seule fois à la racine : React, React DOM
 
 ## Jeux intégrés dans LOSG
 
+2048 est de **Gabriele Cirulli** (© 2014, [projet original](https://github.com/gabrielecirulli/2048), [licence MIT](GAMES/2048/LICENSE.txt)). HexGL est de **Thibaut Despoulain / BKcore** (© 2015, [projet original](https://github.com/BKcore/HexGL), [licence du dépôt](GAMES/HexGL/LICENSE)). Les mentions spécifiques aux fichiers d’origine sont conservées. Les crédits sont affichés dans les fiches, la bibliothèque, le lecteur LOSG et les pages de jeu ; les licences complètes sont incluses dans le build.
+
 | Jeu | Page embarquée | Modes conservés |
 | --- | --- | --- |
-| Arcline | `/play/arcline/` | Duel contre l’IA, réglages et musiques |
+| Arcline | `/play/arcline/` | Duel contre l’IA ou duel local à deux, réglages et musiques |
 | Fouria | `/play/fouria/` | Deux joueurs sur le même écran, IA, salles en ligne, personnalisation |
 | LUMA Snake | `/play/snake/` | Jeu, skins et réglages, clavier et manette |
 | DustBound | `/play/dustbound/` | Course, commandes tactiles et éditeur de piste |
+| 2048 | `/play/2048/` | Puzzle, sauvegarde automatique, record, clavier, tactile et manette |
+| HexGL | `/play/hexgl/` | Course Cityscape, qualité réglable, clavier, tactile et manette |
 
-Le bouton Jouer ouvre les quatre jeux dans LOSG par défaut. La barre commune conserve **Retour à LOSG**, le plein écran et l’ouverture dans un onglet. **Maj + Échap** revient à LOSG même depuis le document du jeu ; Échap seul reste disponible pour le jeu lorsqu’il a le focus. Les pages ouvertes seules proposent aussi un lien de retour.
+Le bouton Jouer ouvre les six jeux dans LOSG par défaut. La barre commune conserve **Retour à LOSG**, le plein écran et l’ouverture dans un onglet. **Maj + Échap** revient à LOSG même depuis le document du jeu ; Échap seul reste disponible pour le jeu lorsqu’il a le focus. Les pages ouvertes seules proposent aussi un lien de retour.
 
 ### Overlay système à la manette
 
-Pendant un jeu dans LOSG, maintenez **LB + RB + LT + RT** (ou **L1 + R1 + L2 + R2**) pendant 400 ms pour ouvrir ou refermer le menu. Le raccourci nécessite les quatre boutons sur la même manette, puis leur relâchement avant un nouvel appui. **F1** et le bouton **Menu LOSG** de la barre donnent le même accès, y compris depuis les quatre jeux embarqués. Le bouton Guide / Xbox / PS est laissé au système, et Options / Menu aux menus propres des jeux.
+Pendant un jeu dans LOSG, maintenez **LB + RB + LT + RT** (ou **L1 + R1 + L2 + R2**) pendant 400 ms pour ouvrir ou refermer le menu. Le raccourci nécessite les quatre boutons sur la même manette, puis leur relâchement avant un nouvel appui. **F1** et le bouton **Menu LOSG** de la barre donnent le même accès, y compris depuis les six jeux embarqués. Le bouton Guide / Xbox / PS est laissé au système, et Options / Menu aux menus propres des jeux.
 
 Le menu propose **Reprendre le jeu**, **Basculer le plein écran** et **Quitter vers l’accueil LOSG**. Arcline, Snake et DustBound suspendent leur boucle Phaser et leurs sons actifs ; Fouria suspend son IA et les interactions en solo. Une partie Fouria en ligne continue. La reprise attend le relâchement des boutons et le retour des sticks au neutre pour éviter une commande involontaire. La navigation attend aussi le neutre lors d’un montage, d’une reconnexion et du retour du focus.
 
 La [Gamepad API standard](https://w3c.github.io/gamepad/#remapping) expose uniquement les entrées transmises par le navigateur et le pilote. Une page web ne peut pas neutraliser le bouton système ni les raccourcis d’un logiciel externe. Si Steam transforme les entrées en clics ou touches clavier, choisir un profil de manette standard pour le navigateur ; voir la [documentation Steam Input](https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_players). LOSG ne modifie aucun réglage Windows ou Steam.
 
 ### Manettes et joueurs
+
+La page Paramètres regroupe Affichage, Lancement des jeux et Navigation à la manette. Les appareils connectés, les joueurs par jeu et l’aide à la connexion sont séparés dans une colonne dédiée sur ordinateur, puis placés sous les réglages sur mobile. Le fond reste uni pour préserver la lisibilité.
+
+Le **stick droit** fait défiler les pages LOSG verticalement, avec une zone neutre et une vitesse progressive. La croix et le stick gauche déplacent le focus et gardent l’option sélectionnée à l’écran ; haut/bas continuent de faire défiler la page lorsqu’il n’y a plus d’option dans cette direction. Les sections dépliables se commandent avec A / Croix. La perte de focus, la reconnexion et la fermeture d’un jeu imposent un retour des commandes au neutre avant la reprise du scroll. Le scroll LOSG est désactivé pendant un jeu intégré.
 
 Le compteur de la barre supérieure ouvre les paramètres, où chaque appareil connecté affiche son **nom fourni par le navigateur**, son **type déduit de ce nom**, et son **numéro de joueur** (port Gamepad + 1). Les numéros ne sont pas compactés lorsqu’une autre manette est débranchée. Un pilote virtuel peut annoncer Xbox même si le matériel physique est différent. Les manettes sans mapping standard restent visibles avec un avertissement ; leurs boutons ne sont pas interprétés arbitrairement.
 
@@ -51,6 +59,8 @@ Le compteur de la barre supérieure ouvre les paramètres, où chaque appareil c
 | Fouria | Gauche/droite : colonne, A / Croix : jouer, haut/bas : autres contrôles, B / Rond : retour. Menus navigables. Une seule manette se partage ; avec deux manettes, la première contrôle les rouges et la seconde les bleus, chacune à son tour. Les ports correspondants sont affichés près des joueurs. Clavier et souris restent disponibles aux deux joueurs. |
 | LUMA Snake | Croix / stick : direction, A / Croix : valider ou rejouer, B / Rond : retour. Les réglages et skins conservent leur navigation manette. |
 | DustBound | RT / R2 : accélérer, LT / L2 : reculer, stick gauche horizontal : incliner ; la croix offre aussi accélération/recul et inclinaison. X / Carré : recommencer. L’éditeur de piste conserve ses outils souris et clavier. |
+| 2048 | Croix / stick : déplacer les tuiles ; LB / L1 : nouvelle partie ; A / Croix : continuer après une victoire ou rejouer après une défaite. Options / Menu : menu LOSG. |
+| HexGL | RT / R2 ou A / Croix : accélérer ; stick / croix : diriger ; LB / RB : aérofreins ; LT / L2 : freiner ; X / Carré : recommencer. Menus navigables et Options / Menu : menu LOSG. |
 
 Arcline, Snake et DustBound utilisent la première manette standard connectée pour leur partie solo. Fouria utilise les deux premiers ports standard pour le mode local et accepte une manette en solo / en ligne. La détection fonctionne via localhost ou HTTPS ; appuyer sur un bouton peut être nécessaire pour autoriser l’exposition de la manette au site. Les commandes sont couvertes par des états simulés ; une validation physique sur les manettes ciblées reste nécessaire.
 
@@ -58,7 +68,7 @@ Les menus propres à chaque jeu sont conservés. Les documents séparés éviten
 
 `npm run dev` et `npm run preview` démarrent aussi le serveur de Fouria. Le navigateur utilise `/play/fouria/ws`, relayé vers le port 3009 par défaut. `FOURIA_PORT` permet de changer ce port depuis `.env` ou une variable d’environnement ; la variable d’environnement est prioritaire. `npm start` sert le build complet et les WebSockets sur un seul port (`PORT`, défaut 3000 ; `HOST`, défaut `0.0.0.0`). Un reverse proxy de production doit transmettre les mises à niveau WebSocket sur `/play/fouria/ws`.
 
-Pour un hébergement purement statique, publier `dist/` en conservant les sous-dossiers et leurs `index.html` : les quatre jeux restent jouables en solo/local, mais les salles en ligne de Fouria nécessitent le serveur. Aucun serveur SSO Arcline n’est requis pour son mode solo actuel. CT PASIMAL reste un lien vers son service existant. Harmonix est retiré du catalogue actif pour le moment ; ses illustrations sont conservées pour une future réintégration.
+Pour un hébergement purement statique, publier `dist/` en conservant les sous-dossiers et leurs `index.html` : les six jeux restent jouables en solo/local, mais les salles en ligne de Fouria nécessitent le serveur. Aucun serveur SSO Arcline n’est requis pour son mode solo actuel. CT PASIMAL reste un lien vers son service existant. Harmonix est retiré du catalogue actif pour le moment ; ses illustrations sont conservées pour une future réintégration.
 
 ## Changements de V0.2.0
 
@@ -101,15 +111,17 @@ La manette doit être exposée par le navigateur : ouvrir LUMA via localhost ou 
 
 ## Catalogue Bissiking
 
-Le catalogue reste dans `src/config/games.ts`. Il contient quatre jeux embarqués et un service externe conservé :
+Le catalogue reste dans `src/config/games.ts`. Il contient six jeux embarqués et un service externe conservé :
 
 | Application | Dépôt examiné | Site |
 | --- | --- | --- |
-| Arcline | `GAMES/arcline-1` | `/play/arcline/` |
-| Fouria | `GAMES/Fouria-main` | `/play/fouria/` |
+| Arcline | `GAMES/arcline` | `/play/arcline/` |
+| Fouria | `GAMES/Fouria` | `/play/fouria/` |
 | CT PASIMAL | [Bissiking/ct_pasimal](https://github.com/Bissiking/ct_pasimal) | https://ctpasimal.mhemery.fr/ |
-| LUMA Snake | `GAMES/snake-main` | `/play/snake/` |
-| DustBound | `GAMES/DustBound-main` | `/play/dustbound/` |
+| LUMA Snake | `GAMES/snake` | `/play/snake/` |
+| DustBound | `GAMES/DustBound` | `/play/dustbound/` |
+| 2048 | `GAMES/2048` | `/play/2048/` |
+| HexGL | `GAMES/HexGL` | `/play/hexgl/` |
 
 L’analyse historique des sites externes et les sources graphiques figurent dans [docs/catalogue-research.md](docs/catalogue-research.md). L’intégration actuelle utilise les sources locales. Les adaptations de Fouria concernent l’adresse et le cycle de vie WebSocket, ainsi que le service du build LOSG. Les services externes conservent leur lancement en nouvel onglet ; LOSG n’intègre pas leur SSO.
 
@@ -165,9 +177,9 @@ src/
   lib/systemGamepad.ts    détection des appuis système sans répétition
 public/boot.css           styles du loader initial et React
 public/games/             images locales optimisées et provenance
-play/                    quatre pages HTML, entrées de jeu et liaison avec le lecteur
+play/                    six pages HTML, entrées de jeu et liaison avec le lecteur
 play/pause.ts            suspension et reprise des moteurs Phaser et sons actifs
-GAMES/                   sources des quatre jeux ; archives originales non publiées
+GAMES/                   sources des six jeux ; archives originales non publiées
 scripts/arcline-assets.ts musique Arcline en développement et dans le build
 scripts/dev.mjs          démarrage de Vite et du serveur Fouria
 scripts/serve.ts         serveur de production LOSG + Fouria

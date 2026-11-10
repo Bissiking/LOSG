@@ -2,10 +2,11 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import packageJson from './package.json';
-import fouriaPackageJson from './GAMES/Fouria-main/package.json';
+import fouriaPackageJson from './GAMES/Fouria/package.json';
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath } from 'node:url';
 import { arclineAssets } from './scripts/arcline-assets';
+import { legacyAssets } from './scripts/legacy-assets';
 
 const fromRoot = (path: string) => fileURLToPath(new URL(path, import.meta.url));
 export default defineConfig(({ mode }) => {
@@ -17,13 +18,13 @@ export default defineConfig(({ mode }) => {
     },
   };
   return {
-  plugins: [react(), tailwindcss(), arclineAssets()],
+  plugins: [react(), tailwindcss(), arclineAssets(), legacyAssets()],
   define: {
     __LOSG_VERSION__: JSON.stringify(packageJson.version),
     __APP_VERSION__: JSON.stringify(fouriaPackageJson.version),
   },
   resolve: {
-    alias: { '@arcline/shared': fromRoot('./GAMES/arcline-1/packages/shared/src/index.ts') },
+    alias: { '@arcline/shared': fromRoot('./GAMES/arcline/packages/shared/src/index.ts') },
     dedupe: ['react', 'react-dom', 'phaser'],
   },
   server: { proxy },
@@ -36,6 +37,8 @@ export default defineConfig(({ mode }) => {
         snake: fromRoot('./play/snake/index.html'),
         dustbound: fromRoot('./play/dustbound/index.html'),
         fouria: fromRoot('./play/fouria/index.html'),
+        '2048': fromRoot('./play/2048/index.html'),
+        hexgl: fromRoot('./play/hexgl/index.html'),
       },
     },
   },

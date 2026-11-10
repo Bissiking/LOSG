@@ -1,5 +1,5 @@
 // src/config/games.ts
-// Catalogue des applications Bissiking. Sources : docs/catalogue-research.md.
+// Catalogue LOSG. Les attributions des jeux tiers sont indiquées par entrée.
 
 export type LaunchMode = 'embed' | 'newTab';
 
@@ -26,18 +26,25 @@ export interface Game {
   /** Jeu livré avec LOSG, isolé dans son propre document. */
   local?: boolean;
   controls?: string;
+  attribution?: {
+    author: string;
+    copyright: string;
+    sourceUrl: string;
+    licenseUrl: string;
+    licenseLabel: string;
+  };
 }
 
 export const GAMES: Game[] = [
   {
     id: 'arcline',
     name: 'Arcline',
-    players: 1,
-    description: 'Un duel d’archers au tour par tour face à l’IA. Ajustez votre tir et composez avec le vent et la gravité de trois terrains.',
+    players: 2,
+    description: 'Un duel d’archers au tour par tour, contre l’IA ou à deux sur le même écran. Ajustez votre tir avec le vent et la gravité de trois terrains.',
     url: '/play/arcline/',
     launchMode: 'embed',
     local: true,
-    controls: 'Manette : croix = angle / puissance · A / Croix = tirer · Options / Menu = réglages · Solo contre l’IA',
+    controls: 'Croix / stick : angle et puissance · A / Croix : tirer · Options / Menu : réglages · Solo ou duel local à 2, avec 1 manette partagée ou 2 manettes',
     accent: '#F0B64C',
     cover: '/games/arcline-cover.jpg',
     background: '/games/arcline-bg.jpg',
@@ -78,6 +85,46 @@ export const GAMES: Game[] = [
     accent: '#00FFAA',
     cover: '/games/luma-snake-cover.jpg',
     background: '/games/luma-snake-bg.jpg',
+  },
+  {
+    id: '2048',
+    name: '2048',
+    attribution: {
+      author: 'Gabriele Cirulli',
+      copyright: '© 2014 Gabriele Cirulli',
+      sourceUrl: 'https://github.com/gabrielecirulli/2048',
+      licenseUrl: '/play/2048/LICENSE.txt',
+      licenseLabel: 'Licence MIT',
+    },
+    players: 1,
+    description: 'Faites glisser les tuiles et fusionnez les nombres identiques pour atteindre 2048. Votre partie et votre meilleur score sont sauvegardés.',
+    url: '/play/2048/',
+    launchMode: 'embed',
+    local: true,
+    controls: 'Flèches / croix / stick : déplacer · LB / L1 ou R : nouvelle partie · A / Croix : continuer ou rejouer en fin de partie',
+    accent: '#EDC22E',
+    cover: '/games/2048-cover.svg',
+    background: '/games/2048-bg.svg',
+  },
+  {
+    id: 'hexgl',
+    name: 'HexGL',
+    attribution: {
+      author: 'Thibaut Despoulain (BKcore)',
+      copyright: '© 2015 Thibaut Despoulain (BKcore)',
+      sourceUrl: 'https://github.com/BKcore/HexGL',
+      licenseUrl: '/play/hexgl/LICENSE.txt',
+      licenseLabel: 'Licence du dépôt : MIT',
+    },
+    players: 1,
+    description: 'Pilotez un vaisseau de course sur les circuits suspendus de Cityscape. Maîtrisez les aérofreins et signez votre meilleur chrono.',
+    url: '/play/hexgl/',
+    launchMode: 'embed',
+    local: true,
+    controls: 'RT / R2 ou A / Croix : accélérer · Stick / croix : diriger · LB / RB : aérofreins · LT / L2 : freiner · X / Carré : recommencer',
+    accent: '#4190BB',
+    cover: '/games/hexgl-cover.svg',
+    background: '/games/hexgl-bg.svg',
   },
   {
     id: 'dustbound',

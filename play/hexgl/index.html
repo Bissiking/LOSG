@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HexGL · LOSG</title>
+</head>
+<body>
+  <main>
+    <section id="step-1" aria-label="Menu HexGL">
+      <div id="global" aria-hidden="true"></div><div id="title" role="img" aria-label="HexGL"></div>
+      <div id="menucontainer"><div id="menu">
+        <button id="start" type="button" disabled>Chargement…</button>
+        <button id="s-quality" type="button">Qualité : moyenne</button>
+        <button id="s-hud" type="button">Affichage : activé</button>
+        <button id="s-credits" type="button">Crédits</button>
+        <p class="controls-help">Clavier, manette standard ou commandes tactiles</p>
+        <p class="author-credit">© 2015 Thibaut Despoulain (BKcore)<br><a href="https://github.com/BKcore/HexGL" target="_blank" rel="noopener noreferrer">Projet original</a> · <a href="./LICENSE.txt" target="_blank" rel="noopener noreferrer">Licence du dépôt : MIT</a></p>
+      </div></div>
+    </section>
+    <section id="step-2" hidden aria-label="Commandes">
+      <h1>Prenez le départ</h1>
+      <p>RT / R2 ou A / Croix : accélérer<br>Stick / croix : diriger<br>LB / RB : aérofreins · LT / L2 : freiner<br>X / Carré ou Échap : recommencer</p>
+      <p>Clavier : flèches pour piloter, Q / D pour les aérofreins.</p>
+      <p>Menu LOSG : F1 ou LB + RB + LT + RT.</p>
+      <button id="continue" type="button">Lancer la course</button>
+    </section>
+    <section id="step-3" hidden aria-label="Chargement du circuit">
+      <p id="loading-status" role="status">Chargement du circuit…</p>
+      <progress id="progressbar" max="100" value="0" aria-label="Ressources chargées"></progress>
+      <button id="retry-load" type="button" hidden>Réessayer</button>
+    </section>
+    <section id="step-4" hidden aria-label="Course HexGL">
+      <div id="overlay"></div><div id="main"></div>
+      <div class="touch-controls" aria-label="Commandes tactiles">
+        <button type="button" data-key="ArrowLeft" aria-label="Tourner à gauche">←</button>
+        <button type="button" data-key="ArrowRight" aria-label="Tourner à droite">→</button>
+        <button type="button" data-key="ArrowUp">Accélérer</button>
+      </div>
+    </section>
+    <section id="step-5" hidden aria-label="Résultat de la course">
+      <div id="time"></div><button id="replay" type="button">Rejouer</button><button id="return-menu" type="button">Menu HexGL</button>
+    </section>
+    <section id="credits" hidden aria-label="Crédits">
+      <h1>HexGL</h1><p>© 2015 Thibaut Despoulain (BKcore).<br>Concept et développement : Thibaut Despoulain (BKcore).</p>
+      <p>Contributions : townxelliot, mahesh.kk.<br>Vaisseau HexMKI : Charnel. Texture du circuit : Nobiax.</p>
+      <p>Technologies : WebGL, JavaScript, CoffeeScript, Three.js.</p>
+      <p><a href="https://github.com/BKcore/HexGL" target="_blank" rel="noopener noreferrer">Projet original sur GitHub</a> · <a href="./LICENSE.txt" target="_blank" rel="noopener noreferrer">Licence du dépôt : MIT</a></p>
+      <p>Les mentions de licence spécifiques aux fichiers d’origine sont conservées.</p><button id="close-credits" type="button">Retour au menu</button>
+    </section>
+  </main>
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>

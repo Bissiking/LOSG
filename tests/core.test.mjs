@@ -8,7 +8,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 // Vite loads the actual TypeScript modules; Node provides assertions and mocks.
 // No browser is launched and these tests do not claim to verify UI interactions.
-const server = await createServer({ server: { middlewareMode: true }, appType: 'custom' });
+const server = await createServer({ server: { middlewareMode: true, hmr: { port: 0 } }, appType: 'custom' });
 after(() => server.close());
 const { resolveGameUrl, openGameTab } = await server.ssrLoadModule('/src/lib/launch.ts');
 const { usePrefs } = await server.ssrLoadModule('/src/hooks/usePrefs.ts');
@@ -18,6 +18,7 @@ const { createSystemButtonTracker } = await server.ssrLoadModule('/src/lib/syste
 const { createGamePauseController } = await server.ssrLoadModule('/play/pause.ts');
 const { startGame } = await server.ssrLoadModule('/play/bridge.ts');
 const { createPadActionReader, describeControllers, controllerType, driveInput, adjustPadAim, controllerForTurn } = await server.ssrLoadModule('/src/lib/gamepad.ts');
+const { createPadScrollReader } = await server.ssrLoadModule('/src/lib/padScroll.ts');
 const base = 'https://luma.test/';
 
 function pad(pressed = [], extra = {}) {
@@ -82,6 +83,37 @@ test('Fouria: one controller is shared; two controllers own separate turns even 
   assert.equal(controllerForTurn([pads[0]], 0), 3);
   assert.equal(controllerForTurn([pads[0]], 1), 3);
   assert.equal(controllerForTurn([pad([], {mapping: ''})], 0), undefined);
+});
+
+test('scroll: right stick has a neutral gate, deadzone, analog speed and bounded elapsed time', () => {
+  const read = createPadScrollReader();
+  assert.equal(read([pad([], { axes: [0, 0, 0, 1] })], 0), 0);
+  assert.equal(read([pad([], { axes: [0, 0, 0, 1] })], 16), 0);
+  assert.equal(read([pad([], { axes: [0, 0, 0, 0] })], 32), 0);
+  assert.equal(read([pad([], { axes: [0, 0, 0, 0.17] })], 48), 0);
+  assert.ok(Math.abs(read([pad([], { axes: [0, 0, 0, 1] })], 64) - 14.4) < 0.001);
+  assert.ok(Math.abs(read([pad([], { axes: [0, 0, 0, -0.59] })], 80) + 7.2) < 0.001);
+  assert.equal(read([pad([], { axes: [0, 0, 0, 1] })], 10000), 45);
+  assert.equal(read([pad([15])], 10016), 0, 'left-stick/cross navigation does not scroll independently');
+});
+
+test('scroll: chord, disconnect, replacement and unsupported pads cannot bypass neutral gating', () => {
+  const read = createPadScrollReader();
+  read([pad()], 0);
+  assert.equal(read([pad([4, 5, 6, 7], { axes: [0, 0, 0, 1] })], 16), 0);
+  assert.equal(read([pad([], { axes: [0, 0, 0, 1] })], 32), 0);
+  read([pad()], 48); read([], 64);
+  assert.equal(read([pad([], { axes: [0, 0, 0, 1] })], 80), 0);
+  read([pad()], 96);
+  assert.equal(read([pad([], { id: 'Replacement', axes: [0, 0, 0, 1] })], 112), 0);
+  assert.equal(read([pad([], { mapping: '', axes: [0, 0, 0, 1] })], 128), 0);
+});
+
+test('scroll: multiple devices do not multiply speed and nonstandard devices cannot interfere', () => {
+  const read = createPadScrollReader();
+  read([pad(), pad([], { index: 2 })], 0);
+  assert.equal(read([pad([], { axes: [0, 0, 0, 1] }), pad([], { index: 2, axes: [0, 0, 0, 1] })], 20), 18);
+  assert.equal(read([pad([], { connected: false, axes: [0, 0, 0, 1] })], 40), 0);
 });
 
 test('DustBound: analog triggers, steering deadzone, reverse and menu chord suppression', () => {
@@ -328,13 +360,13 @@ test('preferences: recover from invalid JSON, unavailable storage, null and wron
   assert.deepEqual(readPreferences(null, true), defaults);
 });
 
-test('catalogue: four bundled games and one external application retain stable IDs and art', () => {
+test('catalogue: six bundled games and one external application retain stable IDs and art', () => {
   assert.deepEqual(GAMES.map(({ id, url }) => [id, url]), [
     ['arcline', '/play/arcline/'], ['fouria', '/play/fouria/'], ['ctpasimal', 'https://ctpasimal.mhemery.fr/'],
-    ['luma-snake', '/play/snake/'], ['dustbound', '/play/dustbound/'],
+    ['luma-snake', '/play/snake/'], ['2048', '/play/2048/'], ['hexgl', '/play/hexgl/'], ['dustbound', '/play/dustbound/'],
   ]);
-  assert.equal(new Set(GAMES.map((game) => game.id)).size, 5);
-  assert.equal(GAMES.filter((game) => game.local).length, 4);
+  assert.equal(new Set(GAMES.map((game) => game.id)).size, 7);
+  assert.equal(GAMES.filter((game) => game.local).length, 6);
   for (const game of GAMES) {
     assert.ok(!game.demo);
     if (game.local) {

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2048 · LOSG</title>
+</head>
+<body>
+  <main class="container" aria-label="2048">
+    <div class="heading">
+      <h1 class="title">2048</h1>
+      <div class="scores-container">
+        <div class="score-container" aria-label="Score" aria-live="polite">0</div>
+        <div class="best-container" aria-label="Meilleur score">0</div>
+      </div>
+    </div>
+    <div class="above-game">
+      <p class="game-intro">Fusionnez les nombres jusqu’à <strong>2048 !</strong></p>
+      <button class="restart-button" type="button">Nouvelle partie</button>
+    </div>
+    <div class="game-container" aria-label="Grille de jeu, 4 par 4">
+      <div class="game-message" role="status">
+        <p></p>
+        <div class="lower">
+          <button class="keep-playing-button" type="button">Continuer</button>
+          <button class="retry-button" type="button">Rejouer</button>
+        </div>
+      </div>
+      <div class="grid-container" aria-hidden="true">
+        <div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+        <div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+        <div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+        <div class="grid-row"><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div></div>
+      </div>
+      <div class="tile-container"></div>
+    </div>
+    <p class="game-explanation">Flèches / croix / stick : déplacer · LB / L1 ou R : recommencer · A / Croix : continuer ou rejouer en fin de partie.</p>
+    <p class="losg-help">F1 ou LB + RB + LT + RT : menu LOSG. Votre partie est sauvegardée automatiquement.</p>
+    <p class="credits">© 2014 Gabriele Cirulli. Créé par <a href="https://gabrielecirulli.com" target="_blank" rel="noopener noreferrer">Gabriele Cirulli</a>, d’après 1024 de Veewo Studio et Threes d’Asher Vollmer. <a href="https://github.com/gabrielecirulli/2048" target="_blank" rel="noopener noreferrer">Projet original</a> · <a href="./LICENSE.txt" target="_blank" rel="noopener noreferrer">Licence MIT</a>.</p>
+  </main>
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>

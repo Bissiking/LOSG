@@ -9,8 +9,8 @@
     "resolveJsonModule": true,
     "types": ["vite/client", "node"],
     "baseUrl": ".",
-    "paths": { "@arcline/shared": ["GAMES/arcline-1/packages/shared/src/index.ts"] }
+    "paths": { "@arcline/shared": ["GAMES/arcline/packages/shared/src/index.ts"] }
   },
-  "include": ["play", "scripts/*.ts", "vite.config.ts", "GAMES/*/src", "GAMES/arcline-1/apps/client/src", "GAMES/arcline-1/packages/shared/src", "GAMES/Fouria-main/server.ts"],
+  "include": ["play", "scripts/*.ts", "vite.config.ts", "GAMES/*/src", "GAMES/arcline/apps/client/src", "GAMES/arcline/packages/shared/src", "GAMES/Fouria/server.ts"],
   "exclude": ["**/*.test.ts"]
 }

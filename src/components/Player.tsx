@@ -5,6 +5,7 @@ import type { Game } from '../config/games';
 import { openGameTab } from '../lib/launch';
 import { useSystemButton } from '../hooks/useSystemButton';
 import { SystemMenu } from './SystemMenu';
+import { GameCredits } from './GameCredits';
 
 export function Player({ game, onClose }: { game: Game; onClose: () => void }) {
   const dialog = useRef<HTMLDialogElement>(null);
@@ -89,6 +90,7 @@ export function Player({ game, onClose }: { game: Game; onClose: () => void }) {
           <ExternalLink size={16} /></button>
       </div>
     </div>
+    <GameCredits game={game} player />
     <div className="player-help" role="status">
       {state === 'failed' ? 'Le jeu n’a pas pu démarrer. ' : state === 'loading' ? 'Chargement du jeu… ' : state === 'slow' ? 'Le chargement prend plus de temps que prévu. ' : ''}
       {game.local ? <><span>{game.controls}</span><span className="player-shortcut">LB + RB + LT + RT (maintenir) · F1 : menu LOSG</span></>

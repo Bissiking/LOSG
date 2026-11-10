@@ -10,5 +10,5 @@ void startGame(async () => {
     document.fonts.load('400 92px "Bebas Neue"'),
     document.fonts.load('800 18px "Manrope"'),
   ]);
-  return import('../../GAMES/arcline-1/apps/client/src/main');
+  return import('../../GAMES/arcline/apps/client/src/main');
 });

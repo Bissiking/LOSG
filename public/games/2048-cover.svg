@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<title>2048 — tuiles et palette du jeu de Gabriele Cirulli</title>
+<path fill="#faf8ef" d="M0 0H1280V720H0Z"/>
+<text x="95" y="360" font-family="Arial,sans-serif" font-size="190" font-weight="bold" letter-spacing="-9" fill="#776e65">2048</text>
+<text x="105" y="427" font-family="Arial,sans-serif" font-size="28" fill="#776e65">Un mouvement. Une fusion.</text>
+<rect x="728" y="158" width="416" height="416" rx="9" fill="#bbada0"/>
+<rect x='742' y='172' width='88' height='88' rx='5' fill='#eee4da'/><text x='786' y='229' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#776e65'>2</text>
+<rect x='842' y='172' width='88' height='88' rx='5' fill='#ede0c8'/><text x='886' y='229' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#776e65'>4</text>
+<rect x='942' y='172' width='88' height='88' rx='5' fill='#f2b179'/><text x='986' y='229' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>8</text>
+<rect x='1042' y='172' width='88' height='88' rx='5' fill='#f59563'/><text x='1086' y='229' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>16</text>
+<rect x='742' y='272' width='88' height='88' rx='5' fill='#ede0c8'/><text x='786' y='329' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#776e65'>4</text>
+<rect x='842' y='272' width='88' height='88' rx='5' fill='#f2b179'/><text x='886' y='329' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>8</text>
+<rect x='942' y='272' width='88' height='88' rx='5' fill='#f67c5f'/><text x='986' y='329' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>32</text>
+<rect x='1042' y='272' width='88' height='88' rx='5' fill='#f65e3b'/><text x='1086' y='329' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>64</text>
+<rect x='742' y='372' width='88' height='88' rx='5' fill='#f2b179'/><text x='786' y='429' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>8</text>
+<rect x='842' y='372' width='88' height='88' rx='5' fill='#f59563'/><text x='886' y='429' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>16</text>
+<rect x='942' y='372' width='88' height='88' rx='5' fill='#edcf72'/><text x='986' y='429' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>128</text>
+<rect x='1042' y='372' width='88' height='88' rx='5' fill='#edcc61'/><text x='1086' y='429' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>256</text>
+<rect x='742' y='472' width='88' height='88' rx='5' fill='#f59563'/><text x='786' y='529' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>16</text>
+<rect x='842' y='472' width='88' height='88' rx='5' fill='#f67c5f'/><text x='886' y='529' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>32</text>
+<rect x='942' y='472' width='88' height='88' rx='5' fill='#edc850'/><text x='986' y='529' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='36' fill='#fffaf0'>512</text>
+<rect x='1042' y='472' width='88' height='88' rx='5' fill='#edc22e'/><text x='1086' y='529' text-anchor='middle' font-family='Arial,sans-serif' font-weight='bold' font-size='27' fill='#fffaf0'>2048</text>
+</svg>

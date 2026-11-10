@@ -1,13 +1,13 @@
 // src/App.tsx
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { ArrowLeft, ArrowRight, Check, ChevronRight, Clock, ExternalLink, Gamepad2, Home, Library, Maximize, Music2, Play, Settings, Users } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, ChevronRight, Clock, ExternalLink, Gamepad2, Home, Library, Music2, Play, Settings, Users } from 'lucide-react';
 import { GAMES, type Game } from './config/games';
 import { GameArt, GameBackdrop } from './components/GameArt';
 import { Player } from './components/Player';
-import { Controllers } from './components/Controllers';
+import { SettingsPage } from './components/SettingsPage';
+import { GameCredits } from './components/GameCredits';
 import { BootScreen } from './components/BootScreen';
-import { AnimatedLogo } from './components/AnimatedLogo';
 import { useGamepad, type PadAction } from './hooks/useGamepad';
 import { usePrefs, type LaunchPref } from './hooks/usePrefs';
 import { useStartup } from './hooks/useStartup';
@@ -15,6 +15,10 @@ import { useControllers } from './hooks/useControllers';
 import { openGameTab, resolveGameUrl } from './lib/launch';
 
 type Screen = 'home' | 'library' | 'settings';
+function focusAndReveal(element?: HTMLElement) {
+  element?.focus({ preventScroll: true });
+  element?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
+}
 function GamePlayers({ game }: { game: Game }) {
   if (!game.players) return null;
   return <span className="game-players"><Users size={15} aria-hidden="true" />
@@ -51,6 +55,7 @@ export default function App() {
   }, []);
 
   const navigate = useCallback((next: Screen) => { setScreen(next); setNotice(''); }, []);
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [screen]);
   const closePlayer = useCallback(() => setPlaying(null), []);
   const select = useCallback((i: number) => {
     if (!GAMES.length) return;
@@ -112,12 +117,12 @@ export default function App() {
     if (action === 'previous' || action === 'next') {
       const next = (SCREENS.findIndex((s) => s.id === screen) + (action === 'next' ? 1 : 2)) % 3;
       navigate(SCREENS[next].id);
-      shell.current?.querySelector<HTMLButtonElement>(`[data-screen="${SCREENS[next].id}"]`)?.focus();
+      focusAndReveal(shell.current?.querySelector<HTMLButtonElement>(`[data-screen="${SCREENS[next].id}"]`) ?? undefined);
       return;
     }
     const active = document.activeElement;
-    const controls = Array.from(shell.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input, select, a[href]') ?? [])
-      .filter((el) => el.getClientRects().length);
+    const controls = Array.from(shell.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), select:not(:disabled), a[href], summary') ?? [])
+      .filter((el) => el.getClientRects().length && !el.classList.contains('skip-link'));
     if (action === 'accept') {
       if (active instanceof HTMLSelectElement) {
         const next = active.options[(active.selectedIndex + 1) % active.options.length];
@@ -126,10 +131,13 @@ export default function App() {
         const selected = active.dataset.gameIndex;
         if (screen === 'home' && selected !== undefined && GAMES[Number(selected)]) launch(GAMES[Number(selected)]);
         else active.click();
-      } else shell.current?.querySelector<HTMLButtonElement>('.play, nav button')?.focus();
+      } else focusAndReveal(shell.current?.querySelector<HTMLButtonElement>('.play, nav button') ?? undefined);
       return;
     }
-    if (!(active instanceof HTMLElement) || !controls.includes(active)) { controls[0]?.focus(); return; }
+    if (!(active instanceof HTMLElement) || !controls.includes(active)) {
+      focusAndReveal(controls.find((el) => { const rect = el.getBoundingClientRect(); return rect.top >= 0 && rect.bottom <= innerHeight; }) ?? controls[0]);
+      return;
+    }
     const rect = active.getBoundingClientRect();
     const x = rect.x + rect.width / 2, y = rect.y + rect.height / 2;
     const horizontal = action === 'left' || action === 'right';
@@ -140,9 +148,14 @@ export default function App() {
       const forward = (horizontal ? dx : dy) * sign;
       return { el, forward, score: forward + Math.abs(horizontal ? dy : dx) * 3 };
     }).filter((item) => item.forward > 8).sort((a, b) => a.score - b.score);
-    candidates[0]?.el.focus();
+    if (candidates[0]) focusAndReveal(candidates[0].el);
+    else if (!horizontal) window.scrollBy({ top: sign * Math.min(innerHeight * 0.6, 480), behavior: 'instant' });
   };
-  const padConnected = useGamepad(!playing, onPad);
+  const padConnected = useGamepad(!playing, onPad, (pixels) => {
+    if (booting) return;
+    setPadFocus(true);
+    window.scrollBy({ top: pixels, behavior: 'instant' });
+  });
 
   const toggleFullscreen = async () => {
     try {
@@ -189,6 +202,7 @@ export default function App() {
                   <GamePlayers game={game} />
                   {game.demo && <span className="demo-label">Démonstration</span>}</div>
                 <p>{game.description}</p>
+                <GameCredits game={game} />
                 <div className="hero-actions"><button className="play" onClick={() => launch(game)} aria-label={`${game.kind === 'music' ? 'Ouvrir' : 'Jouer à'} ${game.name}`}>
                   {game.kind === 'music' ? <Music2 size={18} aria-hidden="true" /> : <Play size={18} fill="currentColor" aria-hidden="true" />}
                   {game.kind === 'music' ? 'Ouvrir' : 'Jouer'}</button>
@@ -223,32 +237,17 @@ export default function App() {
                 <span className="cover"><GameArt game={g} />{g.demo && <span className="cover-label">DÉMO</span>}</span>
                 <span className="library-caption"><strong>{g.name}</strong><ChevronRight size={18} /></span>
                 <GamePlayers game={g} />
+                {g.attribution && <span className="library-author">Par {g.attribution.author}</span>}
                 <span className="library-description">{g.description}</span>
               </button>))}</div> : <p className="empty-state">Aucun jeu. Ajoutez une entrée dans le catalogue.</p>}
             {GAMES.some((g) => g.demo) && <p className="catalogue-note">Les entrées marquées « Démo » et leurs illustrations sont fictives.</p>}
           </section>}
-          {screen === 'settings' && <section className="settings-page" aria-labelledby="settings-title">
-            <div className="page-heading"><h1 id="settings-title">Paramètres</h1><p>Votre espace de jeu, à votre rythme.</p></div>
-            <div className="settings-layout"><div className="panel">
-              <label className="row"><span><strong>Animations</strong><small>{reducedMotion ? 'Réduction des animations activée sur votre appareil.' : 'Transitions entre les jeux et les écrans.'}</small></span>
-                <input type="checkbox" role="switch" checked={prefs.animations} onChange={(e) => setPref('animations', e.target.checked)} /></label>
-              <label className="row"><span><strong>Effets lumineux</strong><small>Une lumière discrète sur le jeu sélectionné.</small></span>
-                <input type="checkbox" role="switch" checked={prefs.glow} onChange={(e) => setPref('glow', e.target.checked)} /></label>
-              <label className="row"><span><strong>Lancement des jeux</strong><small>Choisissez comment ouvrir vos jeux.</small></span>
-                <select value={prefs.launch} onChange={(e) => setPref('launch', e.target.value as LaunchPref)}>
-                  <option value="default">Selon le jeu</option><option value="embed">Vue intégrée</option><option value="newTab">Nouvel onglet</option></select></label>
-              <div className="row"><span><strong>Plein écran</strong><small>Profitez de tout votre écran.</small></span>
-                <button className="btn" onClick={() => void toggleFullscreen()}><Maximize size={16} /> Basculer</button></div>
-            </div><aside className="settings-about"><AnimatedLogo animated={animate} /><h2>LUMA OS: Gaming</h2><p>Version {__LOSG_VERSION__}</p>
-              <p>Préférences enregistrées sur ce navigateur lorsque le stockage local est disponible.</p>
-              <p><Gamepad2 size={17} /> {padConnected ? 'Manette standard détectée' : 'Manette : connectez-la, puis appuyez sur un bouton.'}</p>
-            </aside></div>
-            <Controllers />
-          </section>}
+          {screen === 'settings' && <SettingsPage prefs={prefs} reducedMotion={reducedMotion} animated={animate}
+            controllers={controllers} onPrefChange={setPref} onFullscreen={() => void toggleFullscreen()} />}
           <div className="feedback" role="status" aria-live="polite">{notice}</div>
         </main>
         <footer className="footer"><div className="input-hints">{padConnected
-          ? <><span><Gamepad2 size={15} /> Stick / croix : naviguer</span><span>A : valider</span><span>B : accueil</span><span>LB / RB : onglets</span></>
+          ? <><span><Gamepad2 size={15} /> Stick gauche / croix : naviguer</span><span>Stick droit : défiler</span><span>A : valider</span><span>B : accueil</span><span>LB / RB : onglets</span></>
           : <><span><kbd>←</kbd><kbd>→</kbd> Parcourir</span><span><kbd>Entrée</kbd> Lancer / valider</span><span><kbd>Tab</kbd> Naviguer</span></>}
         </div><span className="footer-version">LUMA OS <span>{__LOSG_VERSION__}</span></span></footer>
       </div>
