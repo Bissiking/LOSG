@@ -87,6 +87,7 @@ export function Board({
               <button
                 key={col}
                 type="button"
+                data-fouria-column={col}
                 disabled={disabled || getDropRow(board, col) === -1}
                 aria-label={`Jouer dans la colonne ${col + 1}`}
                 onMouseEnter={() => setHoverColumn(col)}

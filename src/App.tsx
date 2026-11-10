@@ -1,7 +1,7 @@
 // src/App.tsx
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { ArrowLeft, ArrowRight, Check, ChevronRight, Clock, ExternalLink, Gamepad2, Home, Library, Maximize, Music2, Play, Settings } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, ChevronRight, Clock, ExternalLink, Gamepad2, Home, Library, Maximize, Music2, Play, Settings, Users } from 'lucide-react';
 import { GAMES, type Game } from './config/games';
 import { GameArt, GameBackdrop } from './components/GameArt';
 import { Player } from './components/Player';
@@ -15,6 +15,12 @@ import { useControllers } from './hooks/useControllers';
 import { openGameTab, resolveGameUrl } from './lib/launch';
 
 type Screen = 'home' | 'library' | 'settings';
+function GamePlayers({ game }: { game: Game }) {
+  if (!game.players) return null;
+  return <span className="game-players"><Users size={15} aria-hidden="true" />
+    {game.players} {game.players === 1 ? 'joueur' : 'joueurs'}</span>;
+}
+
 const SCREENS: { id: Screen; label: string; icon: LucideIcon }[] = [
   { id: 'home', label: 'Accueil', icon: Home },
   { id: 'library', label: 'Bibliothèque', icon: Library },
@@ -180,6 +186,7 @@ export default function App() {
                 <div className="game-meta"><span>{game.kind === 'music'
                   ? <><Music2 size={15} aria-hidden="true" /> Application musicale</>
                   : <><Gamepad2 size={15} aria-hidden="true" /> {game.local ? 'Inclus dans LOSG' : 'Jeu web'}</>}</span>
+                  <GamePlayers game={game} />
                   {game.demo && <span className="demo-label">Démonstration</span>}</div>
                 <p>{game.description}</p>
                 <div className="hero-actions"><button className="play" onClick={() => launch(game)} aria-label={`${game.kind === 'music' ? 'Ouvrir' : 'Jouer à'} ${game.name}`}>
@@ -211,10 +218,11 @@ export default function App() {
             <div className="page-heading"><h1 id="library-title">Bibliothèque</h1><p>Tous vos univers, au même endroit. <span>{GAMES.length} applications</span></p></div>
             {GAMES.length ? <div className="grid" data-focus-group>{GAMES.map((g, i) => (
               <button key={g.id} data-game-index={i} className={`library-card ${i === index ? 'selected' : ''}`}
-                aria-label={`Sélectionner ${g.name}`} onFocus={() => select(i)}
+                aria-label={`Sélectionner ${g.name}${g.players ? `, ${g.players} joueur${g.players > 1 ? 's' : ''}` : ''}`} onFocus={() => select(i)}
                 onClick={() => { select(i); navigate('home'); requestAnimationFrame(() => shell.current?.querySelector<HTMLButtonElement>('.play')?.focus()); }}>
                 <span className="cover"><GameArt game={g} />{g.demo && <span className="cover-label">DÉMO</span>}</span>
                 <span className="library-caption"><strong>{g.name}</strong><ChevronRight size={18} /></span>
+                <GamePlayers game={g} />
                 <span className="library-description">{g.description}</span>
               </button>))}</div> : <p className="empty-state">Aucun jeu. Ajoutez une entrée dans le catalogue.</p>}
             {GAMES.some((g) => g.demo) && <p className="catalogue-note">Les entrées marquées « Démo » et leurs illustrations sont fictives.</p>}
@@ -231,7 +239,7 @@ export default function App() {
                   <option value="default">Selon le jeu</option><option value="embed">Vue intégrée</option><option value="newTab">Nouvel onglet</option></select></label>
               <div className="row"><span><strong>Plein écran</strong><small>Profitez de tout votre écran.</small></span>
                 <button className="btn" onClick={() => void toggleFullscreen()}><Maximize size={16} /> Basculer</button></div>
-            </div><aside className="settings-about"><AnimatedLogo animated={animate} /><h2>LUMA OS: Gaming</h2><p>Version 0.2.0</p>
+            </div><aside className="settings-about"><AnimatedLogo animated={animate} /><h2>LUMA OS: Gaming</h2><p>Version {__LOSG_VERSION__}</p>
               <p>Préférences enregistrées sur ce navigateur lorsque le stockage local est disponible.</p>
               <p><Gamepad2 size={17} /> {padConnected ? 'Manette standard détectée' : 'Manette : connectez-la, puis appuyez sur un bouton.'}</p>
             </aside></div>
@@ -242,7 +250,7 @@ export default function App() {
         <footer className="footer"><div className="input-hints">{padConnected
           ? <><span><Gamepad2 size={15} /> Stick / croix : naviguer</span><span>A : valider</span><span>B : accueil</span><span>LB / RB : onglets</span></>
           : <><span><kbd>←</kbd><kbd>→</kbd> Parcourir</span><span><kbd>Entrée</kbd> Lancer / valider</span><span><kbd>Tab</kbd> Naviguer</span></>}
-        </div><span className="footer-version">LUMA OS <span>0.2.0</span></span></footer>
+        </div><span className="footer-version">LUMA OS <span>{__LOSG_VERSION__}</span></span></footer>
       </div>
       {playing && <Player game={playing} onClose={closePlayer} />}
     </div>

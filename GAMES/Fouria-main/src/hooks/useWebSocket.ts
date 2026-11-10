@@ -28,7 +28,7 @@ interface UseWebSocketOptions {
   onError?: (message: string) => void
 }
 
-export function useWebSocket(options: UseWebSocketOptions = {}) {
+export function useWebSocket(options: UseWebSocketOptions = {}, enabled = true) {
   const [connected, setConnected] = useState(false)
   const [roomId, setRoomId] = useState<string | null>(null)
   const [player, setPlayer] = useState<Player | null>(null)
@@ -37,14 +37,17 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectTimeoutRef = useRef<number | null>(null)
   const optionsRef = useRef(options)
+  const enabledRef = useRef(false)
 
   optionsRef.current = options
 
   const connect = useCallback(() => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) return
+    if (!enabledRef.current || wsRef.current?.readyState === WebSocket.OPEN || wsRef.current?.readyState === WebSocket.CONNECTING) return
 
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-    const ws = new WebSocket(`${protocol}//${window.location.host}/ws`)
+    const address = new URL('ws', window.location.href)
+    address.protocol = protocol
+    const ws = new WebSocket(address)
 
     ws.onopen = () => {
       setConnected(true)
@@ -60,6 +63,7 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
     }
 
     ws.onclose = () => {
+      if (!enabledRef.current || wsRef.current !== ws) return
       setConnected(false)
       reconnectTimeoutRef.current = window.setTimeout(() => {
         connect()
@@ -156,7 +160,7 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
     if (reconnectTimeoutRef.current) {
       clearTimeout(reconnectTimeoutRef.current)
     }
-    wsRef.current?.close()
+    if (wsRef.current) { wsRef.current.onclose = null; wsRef.current.close() }
     wsRef.current = null
     setConnected(false)
     setRoomId(null)
@@ -165,14 +169,14 @@ export function useWebSocket(options: UseWebSocketOptions = {}) {
   }, [])
 
   useEffect(() => {
-    connect()
+    enabledRef.current = enabled
+    if (enabled) connect()
+    else disconnect()
     return () => {
-      if (reconnectTimeoutRef.current) {
-        clearTimeout(reconnectTimeoutRef.current)
-      }
-      wsRef.current?.close()
+      enabledRef.current = false
+      disconnect()
     }
-  }, [connect])
+  }, [connect, disconnect, enabled])
 
   return {
     connected,

@@ -3,6 +3,8 @@
 // tours joueur ↔ IA, dégâts par hitbox, victoire/défaite et revanche.
 
 import Phaser from "phaser";
+import packageJson from "../../../../package.json";
+import { installSceneGamepad } from "../../../../../../play/gamepad";
 import {
   ARCHER_HITBOXES,
   GAME_CONFIG,
@@ -11,7 +13,6 @@ import {
   generateWind,
   reachableGravity,
   resolveBodyPart,
-  simulateTrajectory,
   type BodyPart,
   type GameSide,
   type TrajectoryPoint,
@@ -37,6 +38,7 @@ import {
   type GameSettings,
 } from "../game/settings.js";
 import { drawTerrain } from "../game/terrain.js";
+import { simulateShotTrajectory } from "../game/trajectory.js";
 import { createButton } from "../ui/button.js";
 import { createIconButton } from "../ui/icon-button.js";
 import { createPill, type Pill } from "../ui/pill.js";
@@ -122,6 +124,14 @@ export class GameScene extends Phaser.Scene {
 
   create(): void {
     this.resetFields();
+    installSceneGamepad(this, {
+      navigation: () => this.settingsOpen || this.gameOver,
+      onAction: (action) => {
+        if (action === 'back' && this.settingsOpen) { this.closeSettings(); return true; }
+        if (action === 'pause') { this.settingsOpen ? this.closeSettings() : this.openSettings(); return true; }
+        return false;
+      },
+    });
     this.env = pickEnvironment();
     this.botX = randomBotFeetX();
     this.enemyDistance = this.botX - PLAYER_FEET_X.left;
@@ -179,7 +189,7 @@ export class GameScene extends Phaser.Scene {
 
     this.hudLayer.add(
       this.add
-        .text(12, VIEWPORT.height - 30, "Cliquez et glissez vers la cible · relâchez pour tirer", {
+        .text(12, VIEWPORT.height - 30, "Croix : angle / puissance · A / Croix : tirer · Options : réglages", {
           fontFamily: TYPOGRAPHY.fontFamily,
           fontSize: `${TYPOGRAPHY.sizes.small}px`,
           color: COLORS.textMuted,
@@ -214,7 +224,7 @@ export class GameScene extends Phaser.Scene {
 
     this.hudLayer.add(
       this.add
-        .text(VIEWPORT.width - 8, VIEWPORT.height - 26, "V1 · Développement", {
+        .text(VIEWPORT.width - 8, VIEWPORT.height - 26, `Version ${packageJson.version}`, {
           fontFamily: TYPOGRAPHY.fontFamily,
           fontSize: `${TYPOGRAPHY.sizes.tiny}px`,
           color: COLORS.textDisabled,
@@ -291,6 +301,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   update(_time: number, delta: number): void {
+    this.aim?.updateGamepad(delta);
     for (const arrow of this.arrows) {
       arrow.update(delta);
       if (this.gameOver || arrow.finished || arrow.hit) continue;
@@ -338,13 +349,14 @@ export class GameScene extends Phaser.Scene {
     const originX = side === "left" ? PLAYER_FEET_X.left : this.botX;
     const originY = GROUND_Y - AIM.originHeight;
 
-    const points = simulateTrajectory({
+    const points = simulateShotTrajectory({
+      side,
+      originX,
+      originY,
       angle,
       power,
       wind: this.wind,
       gravity: this.gravity,
-      groundBelow: GROUND_Y - originY,
-      boundsX: { min: -originX, max: WORLD.width - originX },
     });
 
     if (points.length < 2) return;
@@ -859,7 +871,7 @@ export class GameScene extends Phaser.Scene {
         textColor: COLORS.bg,
       },
     );
-    this.hudLayer.add(rematch);
+    this.hudLayer.add(rematch.setDepth(70));
 
     const menuButton = createButton(
       this,
@@ -873,7 +885,7 @@ export class GameScene extends Phaser.Scene {
         fontSize: TYPOGRAPHY.sizes.body,
       },
     );
-    this.hudLayer.add(menuButton);
+    this.hudLayer.add(menuButton.setDepth(70));
   }
 
   /** Remise à zéro des champs pointant vers des objets détruits (replay de scène). */
@@ -979,13 +991,14 @@ export class GameScene extends Phaser.Scene {
     const originX = PLAYER_FEET_X.left;
     const originY = GROUND_Y - AIM.originHeight;
 
-    const points = simulateTrajectory({
+    const points = simulateShotTrajectory({
+      side: "left",
+      originX,
+      originY,
       angle,
       power,
       wind: this.wind,
       gravity: this.gravity,
-      groundBelow: GROUND_Y - originY,
-      boundsX: { min: -originX, max: WORLD.width - originX },
     });
 
     if (!this.aidGraphics) {

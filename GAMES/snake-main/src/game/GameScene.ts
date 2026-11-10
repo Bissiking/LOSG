@@ -54,6 +54,7 @@ export class GameScene extends Phaser.Scene {
     this.bgSkin = config.backgroundSkin;
 
     this.inputManager = new InputManager(config.keyMapping);
+    this.events.once("shutdown", () => this.inputManager.destroy());
     this.calculateDimensions();
     this.snake = new Snake(this.cols, this.rows);
     this.food = new Food(this.cols, this.rows);

@@ -1,7 +1,7 @@
 {
   "name": "dustbound",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.0-PROTO",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",

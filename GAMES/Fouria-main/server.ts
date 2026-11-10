@@ -3,8 +3,8 @@ import { readFile, stat } from 'node:fs/promises'
 import { join, normalize, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { WebSocketServer, WebSocket } from 'ws'
-import { createGame, playMove, type GameState } from './src/engine/game'
-import type { Position, Player } from './src/engine/types'
+import { createGame, playMove } from './src/engine/game'
+import type { Position, Player, GameState } from './src/engine/types'
 
 interface Room {
   id: string
@@ -159,9 +159,10 @@ function handleLeave(playerId: string): void {
   }
 }
 
-const PORT = Number(process.env.PORT) || 3000
-const HOST = '0.0.0.0'
-const DIST_DIR = fileURLToPath(new URL('./dist', import.meta.url))
+const PORT = Number(process.env.PORT ?? 3000)
+const HOST = process.env.HOST || '0.0.0.0'
+const DIST_DIR = process.env.LOSG_DIST_DIR || fileURLToPath(new URL('./dist', import.meta.url))
+const WS_PATH = process.env.FOURIA_WS_PATH || '/ws'
 
 const MIME_TYPES: Record<string, string> = {
   '.html': 'text/html; charset=utf-8',
@@ -179,6 +180,7 @@ const MIME_TYPES: Record<string, string> = {
   '.woff': 'font/woff',
   '.woff2': 'font/woff2',
   '.ttf': 'font/ttf',
+  '.mp3': 'audio/mpeg',
   '.map': 'application/json; charset=utf-8',
   '.txt': 'text/plain; charset=utf-8',
   '.webmanifest': 'application/manifest+json',
@@ -222,14 +224,14 @@ async function handleHttpRequest(req: IncomingMessage, res: ServerResponse): Pro
   }
 
   // The WebSocket endpoint is reserved: never fall back to index.html for it.
-  if (pathname === '/ws') {
+  if (pathname === WS_PATH) {
     res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })
     res.end('WebSocket endpoint: upgrade required')
     return
   }
 
   try {
-    const filePath = resolveStaticFile(pathname === '/' ? '/index.html' : pathname)
+    const filePath = resolveStaticFile(pathname.endsWith('/') ? pathname + 'index.html' : pathname)
     if (filePath) {
       const info = await stat(filePath).catch(() => null)
       const isFile = info?.isFile()
@@ -251,7 +253,7 @@ async function handleHttpRequest(req: IncomingMessage, res: ServerResponse): Pro
     }
 
     // SPA fallback: unknown non-asset routes serve the app shell.
-    if (pathname.startsWith('/assets/')) {
+    if (pathname.startsWith('/assets/') || pathname.startsWith('/play/')) {
       res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' })
       res.end('Not Found')
       return
@@ -274,7 +276,7 @@ const wss = new WebSocketServer({ noServer: true })
 
 server.on('upgrade', (req, socket, head) => {
   const pathname = new URL(req.url ?? '/', 'http://localhost').pathname
-  if (pathname !== '/ws') {
+  if (pathname !== WS_PATH) {
     socket.destroy()
     return
   }
@@ -284,7 +286,9 @@ server.on('upgrade', (req, socket, head) => {
 })
 
 server.listen(PORT, HOST, () => {
-  console.log(`Fouria listening on http://${HOST}:${PORT} (static + /ws)`)
+  const address = server.address()
+  const port = typeof address === 'object' && address ? address.port : PORT
+  console.log(`Fouria listening on http://${HOST}:${port} (static + ${WS_PATH})`)
 })
 
 function shutdown(): void {

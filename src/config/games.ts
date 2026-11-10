@@ -7,6 +7,8 @@ export interface Game {
   id: string;
   name: string;
   description: string;
+  /** Nombre maximal de joueurs humains pris en charge par le jeu. */
+  players?: number;
   /** Harmonix est une application musicale, pas un jeu. */
   kind?: 'game' | 'music';
   /** Image de couverture (chemin dans /public ou URL). Facultatif. */
@@ -30,6 +32,7 @@ export const GAMES: Game[] = [
   {
     id: 'arcline',
     name: 'Arcline',
+    players: 1,
     description: 'Un duel d’archers au tour par tour face à l’IA. Ajustez votre tir et composez avec le vent et la gravité de trois terrains.',
     url: '/play/arcline/',
     launchMode: 'embed',
@@ -42,6 +45,7 @@ export const GAMES: Game[] = [
   {
     id: 'fouria',
     name: 'Fouria',
+    players: 2,
     description: 'Quatre jetons pour gagner. Défiez un ami sur le même écran, affrontez l’IA ou retrouvez-vous dans une salle en ligne.',
     url: '/play/fouria/',
     launchMode: 'embed',
@@ -54,6 +58,7 @@ export const GAMES: Game[] = [
   {
     id: 'ctpasimal',
     name: 'CT PASIMAL',
+    players: 1,
     description: 'Incarnez Pasimal, contrôleur technique automobile, dans un jeu web humoristique. Votre prochain véhicule vous attend au garage.',
     url: 'https://ctpasimal.mhemery.fr/',
     launchMode: 'newTab',
@@ -64,6 +69,7 @@ export const GAMES: Game[] = [
   {
     id: 'luma-snake',
     name: 'LUMA Snake',
+    players: 1,
     description: 'Le classique Snake, version LUMA. Guidez le serpent sur la grille, mangez et faites grandir votre score.',
     url: '/play/snake/',
     launchMode: 'embed',
@@ -76,6 +82,7 @@ export const GAMES: Game[] = [
   {
     id: 'dustbound',
     name: 'DustBound',
+    players: 1,
     description: 'Un buggy arcade, des suspensions et un terrain vallonné. Accélérez, maîtrisez vos sauts et rejoignez l’arrivée.',
     url: '/play/dustbound/',
     launchMode: 'embed',

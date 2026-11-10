@@ -34,4 +34,4 @@ const config: Phaser.Types.Core.GameConfig = {
   scene: [BootScene, GameScene, EditorScene],
 };
 
-new Phaser.Game(config);
+export const game = new Phaser.Game(config);

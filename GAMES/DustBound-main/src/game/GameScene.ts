@@ -45,7 +45,7 @@ export class GameScene extends Phaser.Scene {
     this.cameraController.snap();
     const help = window.matchMedia('(pointer: coarse)').matches
       ? 'Utilisez les quatre commandes tactiles'
-      : '→ / D accélérer · ← / Q / A reculer · ↑ ↓ incliner';
+      : 'RT / R2 accélérer · LT / L2 reculer · Stick incliner · X / Carré recommencer · Clavier : flèches';
     this.showMessage('PRÊT ?', help, 2600);
 
     this.scale.on('resize', this.handleResize, this);

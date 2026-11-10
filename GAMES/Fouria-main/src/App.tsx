@@ -20,6 +20,10 @@ import type { Difficulty, GameMode, GameState, Player } from './engine/types'
 import { useLocalStorage } from './hooks/useLocalStorage'
 import { playSound, useSound } from './hooks/useSound'
 import { useWebSocket } from './hooks/useWebSocket'
+import { useGamepad } from '../../../src/hooks/useGamepad'
+import { useControllers } from '../../../src/hooks/useControllers'
+import { navigateDom } from '../../../play/gamepad'
+import { controllerForTurn, readGamepads } from '../../../src/lib/gamepad'
 import { MODE_LABELS, EMPTY_SCORES, type GameResult, type Scores } from './types'
 
 const AI_PLAYER: Player = 'blue'
@@ -39,10 +43,19 @@ type Screen = 'menu' | 'ai-setup' | 'online' | 'customize' | 'settings' | 'game'
 
 export default function App() {
   const [screen, setScreen] = useState<Screen>('menu')
+  const controllers = useControllers().filter((pad) => pad.supported)
   const [game, setGame] = useState<GameState>(createGame)
   const [gameMode, setGameMode] = useState<GameMode>('pvp')
   const [aiThinking, setAiThinking] = useState(false)
   const [rulesOpen, setRulesOpen] = useState(false)
+  const [systemPaused, setSystemPaused] = useState(() => document.documentElement.dataset.losgPaused === 'true')
+
+  useEffect(() => {
+    const update = () => setSystemPaused(document.documentElement.dataset.losgPaused === 'true')
+    window.addEventListener('losg:pause-change', update)
+    update()
+    return () => window.removeEventListener('losg:pause-change', update)
+  }, [])
 
   const [inLobby, setInLobby] = useState(false)
   const [roomCode, setRoomCode] = useState('')
@@ -117,7 +130,7 @@ export default function App() {
   const isAiTurn = gameMode === 'ai' && game.currentPlayer === AI_PLAYER
 
   useEffect(() => {
-    if (screen !== 'game' || game.status !== 'playing' || !isAiTurn) return
+    if (systemPaused || screen !== 'game' || game.status !== 'playing' || !isAiTurn) return
 
     let cancelled = false
     setAiThinking(true)
@@ -133,7 +146,7 @@ export default function App() {
       window.clearTimeout(timer)
       setAiThinking(false)
     }
-  }, [screen, game, isAiTurn, difficulty])
+  }, [screen, game, isAiTurn, difficulty, systemPaused])
 
   const {
     connected,
@@ -192,14 +205,14 @@ export default function App() {
     onError: (message) => {
       setOnlineError(message)
     },
-  })
+  }, gameMode === 'online')
 
   const isOnline = gameMode === 'online'
   const isHost = wsPlayer === 'red' && playerId !== null
   const myTurn = !isOnline || game.currentPlayer === wsPlayer
 
   const boardLocked =
-    game.status !== 'playing' || isAiTurn || aiThinking || (isOnline && !myTurn)
+    game.status !== 'playing' || isAiTurn || aiThinking || (isOnline && !myTurn) || (systemPaused && !isOnline)
 
   const handleColumnClick = useCallback(
     (column: number) => {
@@ -298,6 +311,35 @@ export default function App() {
     navigator.clipboard.writeText(roomCode)
     sound('click')
   }, [roomCode, sound])
+
+  useGamepad(!systemPaused, (action, pad) => {
+    if (action === 'pause') return
+    if (action === 'back') {
+      if (rulesOpen) setRulesOpen(false)
+      else goToMenu()
+      return
+    }
+    if (screen === 'game' && !rulesOpen) {
+      if (gameMode === 'pvp') {
+        const slot = game.currentPlayer === 'red' ? 0 : 1
+        if (pad.index !== controllerForTurn(readGamepads(), slot)) return
+      }
+      const columns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-fouria-column]:not(:disabled)'))
+      const active = document.activeElement as HTMLButtonElement
+      const index = columns.indexOf(active)
+      if (['left', 'right'].includes(action) && columns.length) {
+        const next = index < 0 ? Math.floor(columns.length / 2)
+          : (index + (action === 'right' ? 1 : -1) + columns.length) % columns.length
+        columns[next].focus()
+        return
+      }
+      if (action === 'accept' && (!active || active === document.body)) {
+        columns[Math.floor(columns.length / 2)]?.focus()
+        return
+      }
+    }
+    navigateDom(action)
+  })
 
   if (rulesOpen) {
     return <RulesOverlay onBack={() => setRulesOpen(false)} />
@@ -485,6 +527,7 @@ export default function App() {
         />
         <span className="min-w-0">
           <span className="block truncate font-extrabold tracking-wide text-white">{label}</span>
+          {gameMode === 'pvp' && controllers.length > 0 && <span className="block text-sm text-mist-dim">{controllers.length === 1 ? 'Manette partagée' : `Manette J${controllers[slot === 'red' ? 0 : 1]?.player}`}</span>}
           <span
             className={`block text-[0.72rem] font-semibold ${
               active ? 'text-white/85' : 'text-mist-dim'

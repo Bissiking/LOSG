@@ -9,7 +9,7 @@ import { VIEWPORT } from "./game/layout.js";
 import { COLORS } from "./ui/tokens.js";
 import "./style.css";
 
-new Phaser.Game({
+export const game = new Phaser.Game({
   type: Phaser.AUTO,
   parent: "app",
   scale: {

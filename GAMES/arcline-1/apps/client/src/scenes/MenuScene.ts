@@ -3,6 +3,8 @@
 // boutons Solo (→ GameScene) et Multi verrouillé.
 
 import Phaser from "phaser";
+import packageJson from "../../../../package.json";
+import { installSceneGamepad } from "../../../../../../play/gamepad";
 import { GameAudio } from "../game/audio.js";
 import { VIEWPORT } from "../game/layout.js";
 import {
@@ -37,6 +39,11 @@ export class MenuScene extends Phaser.Scene {
   }
 
   create(): void {
+    installSceneGamepad(this, { onAction: (action) => {
+      if (action === 'back' && this.settingsOpen) { this.closeSettings(); return true; }
+      if (action === 'pause') { this.settingsOpen ? this.closeSettings() : this.openSettings(); return true; }
+      return false;
+    } });
     this.cameras.main.setBackgroundColor(COLORS.bg);
     this.settings = loadSettings();
     this.drawBackdrop();
@@ -246,7 +253,7 @@ export class MenuScene extends Phaser.Scene {
     });
 
     this.footer = this.add
-      .text(0, 0, "V1 · Développement", {
+      .text(0, 0, `Version ${packageJson.version}`, {
         fontFamily: TYPOGRAPHY.fontFamily,
         fontSize: `${TYPOGRAPHY.sizes.tiny}px`,
         color: COLORS.textDisabled,

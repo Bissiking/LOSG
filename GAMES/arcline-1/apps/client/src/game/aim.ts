@@ -3,6 +3,7 @@
 // → relâchement → tir. La puissance vient de la distance de drag.
 
 import Phaser from "phaser";
+import { adjustPadAim, createPadActionReader, padActions, readGamepads, isSystemChord } from "../../../../../../src/lib/gamepad";
 import { COLORS, TYPOGRAPHY, colorToNumber } from "../ui/tokens.js";
 import { AIM, computeAim, isValidAngle, isValidPower, type AimPoint } from "./aim-math.js";
 
@@ -38,6 +39,38 @@ export class AimController {
   private enabled = true;
   private dragging = false;
   private start: DragStart | null = null;
+  private padAngle = 45;
+  private padPower = 70;
+  private readPad = createPadActionReader(false);
+
+  updateGamepad(delta: number): void {
+    const pads = readGamepads().filter((pad) => pad.mapping === 'standard');
+    if (!this.enabled || document.hidden || !document.hasFocus() || document.documentElement.dataset.losgPaused === 'true') {
+      this.readPad = createPadActionReader(false);
+      return;
+    }
+    const pad = pads[0];
+    const events = this.readPad(pad ? [pad] : [], performance.now());
+    if (!pad || isSystemChord(pad)) return;
+    const actions = padActions(pad);
+    const angleStep = Number(actions.has('up')) - Number(actions.has('down'));
+    const powerStep = Number(actions.has('right')) - Number(actions.has('left'));
+    if (angleStep || powerStep) {
+      this.dragging = false;
+      const point = adjustPadAim(this.padAngle, this.padPower, pad, delta);
+      this.padAngle = point.angle;
+      this.padPower = point.power;
+      this.ray.clear();
+      this.drawLaunchRay(point);
+      this.readout.setText(`Angle ${Math.round(point.angle)}° · Puissance ${Math.round(point.power)}%`)
+        .setPosition(this.originX + 100, this.originY - 90).setVisible(true);
+      this.onAim?.(point.angle, point.power);
+    }
+    if (events.some(({ actions }) => actions.includes('accept'))) {
+      this.clear();
+      this.onShot(this.padAngle, this.padPower);
+    }
+  }
 
   constructor(scene: Phaser.Scene, options: AimControllerOptions) {
     this.scene = scene;

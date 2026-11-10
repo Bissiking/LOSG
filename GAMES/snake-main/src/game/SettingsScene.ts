@@ -42,6 +42,7 @@ export class SettingsScene extends Phaser.Scene {
 
   create(): void {
     this.inputManager = new InputManager("AZERTY");
+    this.events.once("shutdown", () => this.inputManager.destroy());
     this.selectedIndex = 0;
     this.snakeCards = [];
     this.foodCards = [];

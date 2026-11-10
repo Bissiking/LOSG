@@ -64,8 +64,10 @@ main { flex: 1; display: flex; flex-direction: column; min-width: 0; padding: 0 
 .home { display: flex; flex-direction: column; justify-content: flex-end; flex: 1; gap: clamp(35px, 5vh, 65px); padding-top: clamp(55px, 13vh, 170px); }
 .info { max-width: 650px; animation: info-in .32s ease-out; min-height: 250px; }
 .info h1 { font-size: clamp(44px, 5.5vw, 88px); font-weight: 700; line-height: 1.04; letter-spacing: -.035em; text-wrap: balance; overflow-wrap: anywhere; }
-.game-meta { display: flex; align-items: center; gap: 15px; margin-top: 20px; font-size: 12px; color: #dfdbea; }
+.game-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 15px; margin-top: 20px; font-size: 12px; color: #dfdbea; }
 .game-meta > span { display: flex; align-items: center; gap: 7px; }
+.game-players { display: inline-flex; align-items: center; gap: 7px; }
+.library-card .game-players { margin-top: 10px; color: var(--muted); font-size: 13px; }
 .demo-label { padding: 3px 9px; background: #241e35; color: #ded1f5; border-radius: 4px; }
 .info p { max-width: 48ch; color: #d2cedf; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.65; margin: 19px 0 26px; }
 .hero-actions { display: flex; align-items: center; gap: 22px; }

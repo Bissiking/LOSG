@@ -31,6 +31,7 @@ export class MenuScene extends Phaser.Scene {
 
   create(): void {
     this.inputManager = new InputManager("AZERTY");
+    this.events.once("shutdown", () => this.inputManager.destroy());
     this.menuItems = [];
     this.selectedIndex = 0;
 

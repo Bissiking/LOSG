@@ -1,6 +1,6 @@
 {
   "name": "luma-snake",
-  "version": "0.1.0",
+  "version": "0.1.0-DEV",
   "private": true,
   "type": "module",
   "scripts": {

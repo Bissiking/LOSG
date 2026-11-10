@@ -187,7 +187,7 @@ Exécutés pendant cette livraison :
 
 - Compilation TypeScript stricte et build Vite 6.4.5 : réussis.
 - Tests LOSG : 27 cas réussis, dont maintien et relâchement du raccourci, séparation des manettes, noms et types, ports absents, affectation des tours Fouria, gâchettes analogiques DustBound, bornes de visée Arcline, pause, démarrage, URL, préférences et retrait de Harmonix.
-- Tests des moteurs : 91 cas existants Fouria et Arcline, tous réussis.
+- Tests des moteurs : 99 cas Fouria et Arcline réussis, dont 8 régressions sur les tirs miroir de l’IA : fin de vol au sol, limites réelles du monde et direction du vent.
 - Tests d’intégration : quatre cas réussis sur les pages et bundles de production, les quatre musiques Arcline inchangées, les erreurs HTTP et une salle Fouria à deux clients (victoire, revanche, déconnexion).
 - Installation commune à la racine ; aucune installation des anciens projets n’est nécessaire.
 - `npm audit` après mise à jour : zéro vulnérabilité signalée au moment de la vérification.

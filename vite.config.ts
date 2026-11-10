@@ -1,6 +1,7 @@
 // vite.config.ts
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
+import packageJson from './package.json';
 import fouriaPackageJson from './GAMES/Fouria-main/package.json';
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath } from 'node:url';
@@ -17,7 +18,10 @@ export default defineConfig(({ mode }) => {
   };
   return {
   plugins: [react(), tailwindcss(), arclineAssets()],
-  define: { __APP_VERSION__: JSON.stringify(fouriaPackageJson.version) },
+  define: {
+    __LOSG_VERSION__: JSON.stringify(packageJson.version),
+    __APP_VERSION__: JSON.stringify(fouriaPackageJson.version),
+  },
   resolve: {
     alias: { '@arcline/shared': fromRoot('./GAMES/arcline-1/packages/shared/src/index.ts') },
     dedupe: ['react', 'react-dom', 'phaser'],
