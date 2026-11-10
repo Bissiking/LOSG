@@ -12,6 +12,7 @@ let world = createWorld(level);
 world.phase = 'menu';
 let previous = { ...world.player };
 let blocked = false, frame = 0, last = performance.now(), flash = 0;
+let focusLost = false, blurTimer = 0;
 let commands: Command[] = [];
 const clock = new FixedClock(PHYSICS.step);
 const camera = new Camera();
@@ -48,16 +49,31 @@ function action(name: string): void {
 }
 function systemPause(): void {
   blocked = document.documentElement.dataset.losgPaused === 'true';
+  if (blocked) window.clearTimeout(blurTimer);
   commands = []; clock.reset(); input.reset(); previous = { ...world.player };
   last = performance.now();
 }
 window.addEventListener('losg:pause-change', systemPause);
 function loseFocus(): void {
-  commands = []; input.reset();
+  focusLost = true; commands = []; input.reset(); clock.reset();
   if (world.phase === 'playing') action('pause');
 }
-window.addEventListener('blur', loseFocus);
-document.addEventListener('visibilitychange', () => { if (document.hidden) loseFocus(); last = performance.now(); clock.reset(); });
+window.addEventListener('blur', () => {
+  focusLost = true; commands = []; input.reset(); clock.reset();
+  // Focusing LOSG's overlay blurs the iframe before its pause message arrives.
+  // Freeze immediately, then allow the bridge to own that pause instead of creating a second local pause.
+  window.clearTimeout(blurTimer);
+  if (window.parent === window) loseFocus();
+  else blurTimer = window.setTimeout(() => { if (focusLost && !blocked) loseFocus(); }, 100);
+});
+window.addEventListener('focus', () => {
+  focusLost = false; window.clearTimeout(blurTimer); last = performance.now(); clock.reset();
+});
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) loseFocus();
+  else focusLost = !document.hasFocus();
+  last = performance.now(); clock.reset();
+});
 
 function update(now: number): void {
   const dt = Math.max(0, Math.min(0.25, (now - last) / 1000)); last = now;
@@ -68,7 +84,7 @@ function update(now: number): void {
     else if (command === 'restart') action('restart');
     else if (command === 'pause') action('pause');
   }
-  if (!blocked && !document.hidden && world.phase === 'playing') {
+  if (!blocked && !focusLost && !document.hidden && world.phase === 'playing') {
     clock.advance(dt, () => {
       previous = { ...world.player };
       stepWorld(world, level);
@@ -96,4 +112,7 @@ export const game = { loop: {
 } };
 screen('warning');
 frame = requestAnimationFrame(update);
-window.addEventListener('pagehide', () => { cancelAnimationFrame(frame); renderer.destroy(); input.destroy(); }, { once: true });
+window.addEventListener('pagehide', (event) => {
+  if (event.persisted) { loseFocus(); return; }
+  window.clearTimeout(blurTimer); cancelAnimationFrame(frame); renderer.destroy(); input.destroy();
+});

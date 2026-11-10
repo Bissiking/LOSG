@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-10T20:37:08.844871+00:00",
+  "title": "Design System: SHIFTBREAK",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "neutral",
+        "displayName": "Encre profonde",
+        "tonalRamp": [
+          "oklch(15% 0.0198 226.11)",
+          "oklch(26.43% 0.0198 226.11)",
+          "oklch(37.86% 0.0198 226.11)",
+          "oklch(49.29% 0.0198 226.11)",
+          "oklch(60.71% 0.0198 226.11)",
+          "oklch(72.14% 0.0198 226.11)",
+          "oklch(83.57% 0.0198 226.11)",
+          "oklch(95% 0.0198 226.11)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Papier chaud",
+        "tonalRamp": [
+          "oklch(15% 0.0226 112.27)",
+          "oklch(26.43% 0.0226 112.27)",
+          "oklch(37.86% 0.0226 112.27)",
+          "oklch(49.29% 0.0226 112.27)",
+          "oklch(60.71% 0.0226 112.27)",
+          "oklch(72.14% 0.0226 112.27)",
+          "oklch(83.57% 0.0226 112.27)",
+          "oklch(95% 0.0226 112.27)"
+        ]
+      },
+      "mint": {
+        "role": "primary",
+        "displayName": "Menthe active",
+        "tonalRamp": [
+          "oklch(15% 0.0956 182.98)",
+          "oklch(26.43% 0.0956 182.98)",
+          "oklch(37.86% 0.0956 182.98)",
+          "oklch(49.29% 0.0956 182.98)",
+          "oklch(60.71% 0.0956 182.98)",
+          "oklch(72.14% 0.0956 182.98)",
+          "oklch(83.57% 0.0956 182.98)",
+          "oklch(95% 0.0956 182.98)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Sauge grisée",
+        "tonalRamp": [
+          "oklch(15% 0.0194 180.13)",
+          "oklch(26.43% 0.0194 180.13)",
+          "oklch(37.86% 0.0194 180.13)",
+          "oklch(49.29% 0.0194 180.13)",
+          "oklch(60.71% 0.0194 180.13)",
+          "oklch(72.14% 0.0194 180.13)",
+          "oklch(83.57% 0.0194 180.13)",
+          "oklch(95% 0.0194 180.13)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Joint sombre",
+        "tonalRamp": [
+          "oklch(15% 0.0264 214.82)",
+          "oklch(26.43% 0.0264 214.82)",
+          "oklch(37.86% 0.0264 214.82)",
+          "oklch(49.29% 0.0264 214.82)",
+          "oklch(60.71% 0.0264 214.82)",
+          "oklch(72.14% 0.0264 214.82)",
+          "oklch(83.57% 0.0264 214.82)",
+          "oklch(95% 0.0264 214.82)"
+        ]
+      },
+      "rail": {
+        "role": "neutral",
+        "displayName": "Rail pâle",
+        "tonalRamp": [
+          "oklch(15% 0.0174 145.42)",
+          "oklch(26.43% 0.0174 145.42)",
+          "oklch(37.86% 0.0174 145.42)",
+          "oklch(49.29% 0.0174 145.42)",
+          "oklch(60.71% 0.0174 145.42)",
+          "oklch(72.14% 0.0174 145.42)",
+          "oklch(83.57% 0.0174 145.42)",
+          "oklch(95% 0.0174 145.42)"
+        ]
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Corail danger",
+        "tonalRamp": [
+          "oklch(15% 0.1548 32.78)",
+          "oklch(26.43% 0.1548 32.78)",
+          "oklch(37.86% 0.1548 32.78)",
+          "oklch(49.29% 0.1548 32.78)",
+          "oklch(60.71% 0.1548 32.78)",
+          "oklch(72.14% 0.1548 32.78)",
+          "oklch(83.57% 0.1548 32.78)",
+          "oklch(95% 0.1548 32.78)"
+        ]
+      },
+      "temporary": {
+        "role": "tertiary",
+        "displayName": "Jaune temporaire",
+        "tonalRamp": [
+          "oklch(15% 0.1093 89.77)",
+          "oklch(26.43% 0.1093 89.77)",
+          "oklch(37.86% 0.1093 89.77)",
+          "oklch(49.29% 0.1093 89.77)",
+          "oklch(60.71% 0.1093 89.77)",
+          "oklch(72.14% 0.1093 89.77)",
+          "oklch(83.57% 0.1093 89.77)",
+          "oklch(95% 0.1093 89.77)"
+        ]
+      },
+      "track-muted": {
+        "role": "neutral",
+        "displayName": "Repère de piste",
+        "tonalRamp": [
+          "oklch(15% 0.0280 213.18)",
+          "oklch(26.43% 0.0280 213.18)",
+          "oklch(37.86% 0.0280 213.18)",
+          "oklch(49.29% 0.0280 213.18)",
+          "oklch(60.71% 0.0280 213.18)",
+          "oklch(72.14% 0.0280 213.18)",
+          "oklch(83.57% 0.0280 213.18)",
+          "oklch(95% 0.0280 213.18)"
+        ]
+      },
+      "button-hover": {
+        "role": "neutral",
+        "displayName": "Survol secondaire",
+        "tonalRamp": [
+          "oklch(15% 0.0296 216.77)",
+          "oklch(26.43% 0.0296 216.77)",
+          "oklch(37.86% 0.0296 216.77)",
+          "oklch(49.29% 0.0296 216.77)",
+          "oklch(60.71% 0.0296 216.77)",
+          "oklch(72.14% 0.0296 216.77)",
+          "oklch(83.57% 0.0296 216.77)",
+          "oklch(95% 0.0296 216.77)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Survol menthe",
+        "tonalRamp": [
+          "oklch(15% 0.0705 183.75)",
+          "oklch(26.43% 0.0705 183.75)",
+          "oklch(37.86% 0.0705 183.75)",
+          "oklch(49.29% 0.0705 183.75)",
+          "oklch(60.71% 0.0705 183.75)",
+          "oklch(72.14% 0.0705 183.75)",
+          "oklch(83.57% 0.0705 183.75)",
+          "oklch(95% 0.0705 183.75)"
+        ]
+      },
+      "field": {
+        "role": "neutral",
+        "displayName": "Surface du champ",
+        "tonalRamp": [
+          "oklch(15% 0.0271 219.88)",
+          "oklch(26.43% 0.0271 219.88)",
+          "oklch(37.86% 0.0271 219.88)",
+          "oklch(49.29% 0.0271 219.88)",
+          "oklch(60.71% 0.0271 219.88)",
+          "oklch(72.14% 0.0271 219.88)",
+          "oklch(83.57% 0.0271 219.88)",
+          "oklch(95% 0.0271 219.88)"
+        ]
+      },
+      "field-border": {
+        "role": "neutral",
+        "displayName": "Bord du champ",
+        "tonalRamp": [
+          "oklch(15% 0.0290 199.38)",
+          "oklch(26.43% 0.0290 199.38)",
+          "oklch(37.86% 0.0290 199.38)",
+          "oklch(49.29% 0.0290 199.38)",
+          "oklch(60.71% 0.0290 199.38)",
+          "oklch(72.14% 0.0290 199.38)",
+          "oklch(83.57% 0.0290 199.38)",
+          "oklch(95% 0.0290 199.38)"
+        ]
+      },
+      "experimental": {
+        "role": "secondary",
+        "displayName": "Signal expérimental",
+        "tonalRamp": [
+          "oklch(15% 0.0951 39.92)",
+          "oklch(26.43% 0.0951 39.92)",
+          "oklch(37.86% 0.0951 39.92)",
+          "oklch(49.29% 0.0951 39.92)",
+          "oklch(60.71% 0.0951 39.92)",
+          "oklch(72.14% 0.0951 39.92)",
+          "oklch(83.57% 0.0951 39.92)",
+          "oklch(95% 0.0951 39.92)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Titre du menu",
+        "purpose": "Titre Exo 2 sur deux lignes ; 64px en mobile."
+      },
+      "headline": {
+        "displayName": "Titre de panneau",
+        "purpose": "États du prototype ; avertissement plus compact."
+      },
+      "body": {
+        "displayName": "Explications",
+        "purpose": "Texte français en Manrope, largeur de lecture limitée."
+      },
+      "measurement": {
+        "displayName": "Mesures",
+        "purpose": "Données réelles du HUD avec chiffres tabulaires."
+      },
+      "key": {
+        "displayName": "Touches et version",
+        "purpose": "Repères compacts en JetBrains Mono."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-background",
+        "value": "background .12s ease-out",
+        "purpose": "Survol des boutons, uniquement sans préférence de mouvement réduit."
+      },
+      {
+        "name": "inversion-ring",
+        "value": "flash = max(0, flash - dt * 5)",
+        "purpose": "Anneau menthe expansif ; amplitude remise à zéro sous mouvement réduit."
+      },
+      {
+        "name": "camera-follow",
+        "value": "1 - exp(-12 * seconds)",
+        "purpose": "Amortissement du suivi de caméra ; mouvement de jeu conservé sous préférence de mouvement réduit."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile",
+        "value": "700px"
+      },
+      {
+        "name": "wide",
+        "value": "1100px"
+      },
+      {
+        "name": "short-wide",
+        "value": "(max-height:600px) and (min-width:701px)"
+      }
+    ],
+    "rampProvenance": "Les rampes sont des échantillons OKLCH synthétiques pour le panneau de documentation, à teinte et chroma constantes ; elles ne constituent pas des couleurs supplémentaires utilisées par le jeu."
+  },
+  "components": [
+    {
+      "name": "Action principale",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Démarrer ou reprendre depuis un panneau.",
+      "html": "<button class=\"ds-primary\">Jouer</button>",
+      "css": ".ds-primary{font-family:'Manrope',sans-serif;font-weight:600;font-size:16px;border-radius:6px;padding:12px 18px;min-height:44px;cursor:pointer;min-width:180px;background:var(--sb-cyan,#7ee0d1);color:var(--sb-ink,#0d191e);border:1px solid transparent}.ds-primary:hover{background:#a9eee3}.ds-primary:focus-visible{outline:3px solid var(--sb-cyan,#7ee0d1);outline-offset:4px;}.ds-primary:disabled{opacity:.4;cursor:default}@media(prefers-reduced-motion:no-preference){.ds-primary,.ds-secondary{transition:background .12s ease-out;}}"
+    },
+    {
+      "name": "Action secondaire",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ouvrir les commandes ou revenir au menu.",
+      "html": "<button class=\"ds-secondary\">Commandes</button>",
+      "css": ".ds-secondary{font-family:'Manrope',sans-serif;font-weight:600;font-size:16px;border-radius:6px;padding:12px 18px;min-height:44px;cursor:pointer;background:var(--sb-ink,#0d191e);color:var(--sb-paper,#eef0df);border:1px solid var(--sb-line,#34484d)}.ds-secondary:hover{background:#243a40}.ds-secondary:focus-visible{outline:3px solid var(--sb-cyan,#7ee0d1);outline-offset:4px;}.ds-secondary:disabled{opacity:.4;cursor:default}@media(prefers-reduced-motion:no-preference){.ds-primary,.ds-secondary{transition:background .12s ease-out;}}"
+    },
+    {
+      "name": "Choix de touche",
+      "kind": "input",
+      "refersTo": "select",
+      "description": "Sélection native de la touche d’inversion.",
+      "html": "<label class=\"ds-label\" for=\"ds-key\">Touche d’inversion</label><select class=\"ds-select\" id=\"ds-key\"><option>Espace</option><option>Flèche haut</option><option>W</option><option>K</option></select>",
+      "css": ".ds-label{display:block;font:13px Manrope,sans-serif;color:var(--sb-paper,#eef0df);margin:12px 0 8px}.ds-select{width:100%;border:1px solid #637c7d;background:#192c32;color:var(--sb-paper,#eef0df);border-radius:5px;min-height:44px;padding:8px 12px;font:16px Manrope,sans-serif;accent-color:var(--sb-cyan,#7ee0d1);color-scheme:dark}.ds-select:focus-visible{outline:3px solid var(--sb-cyan,#7ee0d1);outline-offset:4px;}"
+    },
+    {
+      "name": "Version du prototype",
+      "kind": "chip",
+      "refersTo": "version-tag",
+      "description": "Repère de version informatif, sans interaction.",
+      "html": "<span class=\"ds-version\">0.1-PROTO</span>",
+      "css": ".ds-version{display:inline-block;font:400 11px \"JetBrains Mono\",monospace;color:var(--sb-cyan,#7ee0d1);padding:5px 7px;border:1px solid #405a5b;border-radius:3px}"
+    },
+    {
+      "name": "Gravité",
+      "kind": "custom",
+      "refersTo": "gravity-indicator",
+      "description": "Le texte et le bord actif indiquent le sens de gravité. Les deux états sont présentés.",
+      "html": "<div class=\"ds-gravity-row\"><span class=\"ds-gravity\">Gravité : bas</span><span class=\"ds-gravity ds-gravity-up\">Gravité : haut</span></div>",
+      "css": ".ds-gravity-row{display:flex;gap:32px}.ds-gravity{font:13px Manrope,sans-serif;color:var(--sb-cyan,#7ee0d1);border-top:2px solid transparent;border-bottom:2px solid var(--sb-cyan,#7ee0d1);padding:6px 0}.ds-gravity-up{border-top-color:var(--sb-cyan,#7ee0d1);border-bottom-color:transparent}"
+    },
+    {
+      "name": "Mesure du HUD",
+      "kind": "custom",
+      "refersTo": "measurement",
+      "description": "Valeur réelle avec intitulé et unité ; exemple statique.",
+      "html": "<div class=\"ds-measure\"><span>Vitesse</span><strong>240 <small>px/s</small></strong></div>",
+      "css": ".ds-measure{display:flex;flex-direction:column;gap:3px;color:var(--sb-paper,#eef0df)}.ds-measure>span{font:11px Manrope,sans-serif;color:var(--sb-muted,#b1c2be)}.ds-measure strong{font:400 21px \"JetBrains Mono\",monospace;font-variant-numeric:tabular-nums}.ds-measure small{font:11px Manrope,sans-serif;color:var(--sb-muted,#b1c2be)}"
+    },
+    {
+      "name": "Progression du parcours",
+      "kind": "custom",
+      "refersTo": "progress",
+      "description": "Ligne de progression avec un intitulé visible ; exemple statique.",
+      "html": "<label class=\"ds-progress-label\" for=\"ds-progress\">Parcours unique</label><progress class=\"ds-progress\" id=\"ds-progress\" max=\"100\" value=\"40\">40 %</progress>",
+      "css": ".ds-progress-label{font:11px Manrope,sans-serif;color:var(--sb-muted,#b1c2be);display:block;margin-bottom:6px}.ds-progress{width:100%;height:4px;border:0;appearance:none;display:block;background:var(--sb-line,#34484d);accent-color:var(--sb-cyan,#7ee0d1)}.ds-progress::-webkit-progress-bar{background:var(--sb-line,#34484d)}.ds-progress::-webkit-progress-value{background:var(--sb-cyan,#7ee0d1)}.ds-progress::-moz-progress-bar{background:var(--sb-cyan,#7ee0d1)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Le rail vivant",
+    "overview": "Une piste géométrique sur fond d’encre, où chaque signe explique une action ou un état. La silhouette fendue du joueur et les rails forment l’identité du jeu ; la typographie structure les commandes sans concurrencer la lecture du parcours. L’interface française est directe, calme et compacte.\n\nLe jeu privilégie l’expérience pendant la course et la manipulation explicite dans les panneaux. Le parcours reste visible à côté du menu sur grand écran ; pendant la partie, le panneau disparaît. L’univers est dessiné en Canvas 2D, sans illustration rapportée. Ce document décrit le prototype construit ; il ne définit ni nouveaux écrans ni fonctionnalités futures.",
+    "keyCharacteristics": [
+      "Une géométrie originale, avec une silhouette de joueur immédiatement identifiable.",
+      "Une couleur liée à une fonction, renforcée par une forme, une trame ou un libellé.",
+      "Une interface sobre autour du parcours, avec des mesures réelles et des commandes visibles.",
+      "Des effets discrets qui accompagnent l’inversion sans masquer les obstacles."
+    ],
+    "rules": [
+      {
+        "name": "The Signal Rule",
+        "body": "Chaque couleur de jeu garde son rôle ; les obstacles utilisent aussi hachures, pointillés ou mots pour communiquer leur état.",
+        "section": "colors"
+      },
+      {
+        "name": "The Measurement Rule",
+        "body": "La chasse fixe appartient aux mesures et aux repères d’entrée ; les explications restent en Manrope.",
+        "section": "typography"
+      },
+      {
+        "name": "The Clear Track Rule",
+        "body": "Pendant la course, le panneau disparaît et les effets ne recouvrent pas durablement les obstacles.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** conserver la menthe pour le joueur, la gravité, la progression et l’action principale.",
+      "**Do** renforcer les dangers et états temporaires par une trame, un trait ou un libellé.",
+      "**Do** retirer le panneau pendant la course et garder les commandes accessibles autour de la piste.",
+      "**Do** conserver les unités, les chiffres tabulaires et les messages de session temporaire.",
+      "**Do** adapter les panneaux et les rangées de commandes à la largeur disponible."
+    ],
+    "donts": [
+      "**Don't** ajouter des effets qui masquent la géométrie utile ou forcer l’anneau en mouvement réduit.",
+      "**Don't** transformer les mesures du parcours en grille décorative.",
+      "**Don't** substituer une illustration à la géométrie originale du prototype.",
+      "**Don't** introduire un vocabulaire visuel de compte, sauvegarde, classement ou progression persistante."
+    ]
+  }
+}

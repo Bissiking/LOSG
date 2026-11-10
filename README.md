@@ -1,7 +1,7 @@
 <!-- README.md -->
 # LUMA OS: Gaming — 0.3.0
 
-Interface console React + TypeScript + Vite avec palette SPX violet, cyan, rose et noir. Les six jeux du dossier `GAMES/` sont livrés avec LOSG : Arcline, Fouria, LUMA Snake, DustBound, 2048 et HexGL. Fouria utilise son serveur WebSocket pour les salles en ligne ; les autres modes fonctionnent sans service distant.
+Interface console React + TypeScript + Vite avec palette SPX violet, cyan, rose et noir. Les sept jeux du dossier `GAMES/` sont livrés avec LOSG : SHIFTBREAK, Arcline, Fouria, LUMA Snake, DustBound, 2048 et HexGL. Fouria utilise son serveur WebSocket pour les salles en ligne ; les autres modes fonctionnent sans service distant.
 
 ## Démarrer
 
@@ -10,9 +10,9 @@ Node.js 22 LTS recommandé (environnement de vérification : 22.22.2).
 ```sh
 npm ci
 npm run dev       # Vite :5173 + serveur Fouria :3009
-npm run typecheck # LOSG, six jeux, serveur et intégration
+npm run typecheck # LOSG, sept jeux, serveur et intégration
 npm test          # LOSG, commandes, pause et chronomètre HexGL
-npm run test:games # moteurs Fouria et Arcline
+npm run test:games # moteurs Fouria, Arcline et SHIFTBREAK
 npm run build     # TypeScript + production dans dist/
 npm run test:integration # après build : HTTP, musiques et partie WebSocket
 npm run preview   # servir dist/ :4173 + serveur Fouria :3009
@@ -28,6 +28,7 @@ Les dépendances sont installées une seule fois à la racine : React, React DOM
 
 | Jeu | Page embarquée | Modes conservés |
 | --- | --- | --- |
+| SHIFTBREAK | `/play/shiftbreak/` | Prototype 0.1-PROTO, une carte, inversion de gravité, clavier / tactile / manette, sans sauvegarde |
 | Arcline | `/play/arcline/` | Duel contre l’IA ou duel local à deux, réglages et musiques |
 | Fouria | `/play/fouria/` | Deux joueurs sur le même écran, IA, salles en ligne, personnalisation |
 | LUMA Snake | `/play/snake/` | Jeu, skins et réglages, clavier et manette |
@@ -35,13 +36,17 @@ Les dépendances sont installées une seule fois à la racine : React, React DOM
 | 2048 | `/play/2048/` | Puzzle, sauvegarde automatique, record, clavier, tactile et manette |
 | HexGL | `/play/hexgl/` | Course Cityscape, qualité réglable, clavier, tactile et manette |
 
-Le bouton Jouer ouvre les six jeux dans LOSG par défaut. La barre commune conserve **Retour à LOSG**, le plein écran et l’ouverture dans un onglet. **Maj + Échap** revient à LOSG même depuis le document du jeu ; Échap seul reste disponible pour le jeu lorsqu’il a le focus. Les pages ouvertes seules proposent aussi un lien de retour.
+Le bouton Jouer ouvre les sept jeux dans LOSG par défaut. La barre commune conserve **Retour à LOSG**, le plein écran et l’ouverture dans un onglet. **Maj + Échap** revient à LOSG même depuis le document du jeu ; Échap seul reste disponible pour le jeu lorsqu’il a le focus. Les pages ouvertes seules proposent aussi un lien de retour.
+
+### SHIFTBREAK 0.1-PROTO
+
+Le prototype se lance depuis le catalogue ou `/play/shiftbreak/`. Il comprend une carte originale de six sections, environ 72 secondes pour une réussite, un avertissement expérimental à chaque chargement et aucune sauvegarde. [Commandes et moteur](GAMES/shiftbreak/README.md) · [Vérifications et fichiers livrés](docs/shiftbreak-0.1-proto.md).
 
 ### Overlay système à la manette
 
-Pendant un jeu dans LOSG, maintenez **LB + RB + LT + RT** (ou **L1 + R1 + L2 + R2**) pendant 400 ms pour ouvrir ou refermer le menu. Le raccourci nécessite les quatre boutons sur la même manette, puis leur relâchement avant un nouvel appui. **F1** et le bouton **Menu LOSG** de la barre donnent le même accès, y compris depuis les six jeux embarqués. Le bouton Guide / Xbox / PS est laissé au système, et Options / Menu aux menus propres des jeux.
+Pendant un jeu dans LOSG, maintenez **LB + RB + LT + RT** (ou **L1 + R1 + L2 + R2**) pendant 400 ms pour ouvrir ou refermer le menu. Le raccourci nécessite les quatre boutons sur la même manette, puis leur relâchement avant un nouvel appui. **F1** et le bouton **Menu LOSG** de la barre donnent le même accès, y compris depuis les sept jeux embarqués. Le bouton Guide / Xbox / PS est laissé au système, et Options / Menu aux menus propres des jeux.
 
-Le menu propose **Reprendre le jeu**, **Basculer le plein écran** et **Quitter vers l’accueil LOSG**. Arcline, Snake et DustBound suspendent leur boucle Phaser et leurs sons actifs ; Fouria suspend son IA et les interactions en solo. Une partie Fouria en ligne continue. La reprise attend le relâchement des boutons et le retour des sticks au neutre pour éviter une commande involontaire. La navigation attend aussi le neutre lors d’un montage, d’une reconnexion et du retour du focus.
+SHIFTBREAK suspend sa simulation Canvas et ses commandes sans écrire de sauvegarde. Sa pause locale reste indépendante de la pause système. Le menu propose **Reprendre le jeu**, **Basculer le plein écran** et **Quitter vers l’accueil LOSG**. Arcline, Snake et DustBound suspendent leur boucle Phaser et leurs sons actifs ; Fouria suspend son IA et les interactions en solo. Une partie Fouria en ligne continue. La reprise attend le relâchement des boutons et le retour des sticks au neutre pour éviter une commande involontaire. La navigation attend aussi le neutre lors d’un montage, d’une reconnexion et du retour du focus.
 
 La [Gamepad API standard](https://w3c.github.io/gamepad/#remapping) expose uniquement les entrées transmises par le navigateur et le pilote. Une page web ne peut pas neutraliser le bouton système ni les raccourcis d’un logiciel externe. Si Steam transforme les entrées en clics ou touches clavier, choisir un profil de manette standard pour le navigateur ; voir la [documentation Steam Input](https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_players). LOSG ne modifie aucun réglage Windows ou Steam.
 
@@ -55,6 +60,7 @@ Le compteur de la barre supérieure ouvre les paramètres, où chaque appareil c
 
 | Jeu | Commandes manette |
 | --- | --- |
+| SHIFTBREAK | A / Croix : inverser la gravité ; Options / Menu ou B / Rond : pause ; croix / stick et A / Croix : menus. Une manette standard, sans répétition sur maintien. |
 | Arcline | Croix ou stick : haut/bas pour l’angle, gauche/droite pour la puissance ; bouton inférieur A / Croix : tirer. Options / Menu ouvre les réglages, B / Rond les ferme. Les menus et la revanche sont navigables avec un contour de focus. |
 | Fouria | Gauche/droite : colonne, A / Croix : jouer, haut/bas : autres contrôles, B / Rond : retour. Menus navigables. Une seule manette se partage ; avec deux manettes, la première contrôle les rouges et la seconde les bleus, chacune à son tour. Les ports correspondants sont affichés près des joueurs. Clavier et souris restent disponibles aux deux joueurs. |
 | LUMA Snake | Croix / stick : direction, A / Croix : valider ou rejouer, B / Rond : retour. Les réglages et skins conservent leur navigation manette. |
@@ -64,11 +70,11 @@ Le compteur de la barre supérieure ouvre les paramètres, où chaque appareil c
 
 Arcline, Snake et DustBound utilisent la première manette standard connectée pour leur partie solo. Fouria utilise les deux premiers ports standard pour le mode local et accepte une manette en solo / en ligne. La détection fonctionne via localhost ou HTTPS ; appuyer sur un bouton peut être nécessaire pour autoriser l’exposition de la manette au site. Les commandes sont couvertes par des états simulés ; une validation physique sur les manettes ciblées reste nécessaire.
 
-Les menus propres à chaque jeu sont conservés. Les documents séparés évitent les conflits de styles et de raccourcis. Fermer le lecteur détruit le document du jeu, ses sons et sa connexion ; rouvrir lance une nouvelle session. Les sauvegardes et préférences existantes restent dans le stockage local du navigateur.
+Les menus propres à chaque jeu sont conservés. Les documents séparés évitent les conflits de styles et de raccourcis. Fermer le lecteur détruit le document du jeu, ses sons et sa connexion ; rouvrir lance une nouvelle session. Les sauvegardes et préférences existantes des autres jeux restent dans le stockage local du navigateur. SHIFTBREAK conserve uniquement des données temporaires en mémoire.
 
 `npm run dev` et `npm run preview` démarrent aussi le serveur de Fouria. Le navigateur utilise `/play/fouria/ws`, relayé vers le port 3009 par défaut. `FOURIA_PORT` permet de changer ce port depuis `.env` ou une variable d’environnement ; la variable d’environnement est prioritaire. `npm start` sert le build complet et les WebSockets sur un seul port (`PORT`, défaut 3000 ; `HOST`, défaut `0.0.0.0`). Un reverse proxy de production doit transmettre les mises à niveau WebSocket sur `/play/fouria/ws`.
 
-Pour un hébergement purement statique, publier `dist/` en conservant les sous-dossiers et leurs `index.html` : les six jeux restent jouables en solo/local, mais les salles en ligne de Fouria nécessitent le serveur. Aucun serveur SSO Arcline n’est requis pour son mode solo actuel. CT PASIMAL reste un lien vers son service existant. Harmonix est retiré du catalogue actif pour le moment ; ses illustrations sont conservées pour une future réintégration.
+Pour un hébergement purement statique, publier `dist/` en conservant les sous-dossiers et leurs `index.html` : les sept jeux restent jouables en solo/local, mais les salles en ligne de Fouria nécessitent le serveur. Aucun serveur SSO Arcline n’est requis pour son mode solo actuel. CT PASIMAL reste un lien vers son service existant. Harmonix est retiré du catalogue actif pour le moment ; ses illustrations sont conservées pour une future réintégration.
 
 ## Changements de V0.2.0
 
@@ -177,9 +183,9 @@ src/
   lib/systemGamepad.ts    détection des appuis système sans répétition
 public/boot.css           styles du loader initial et React
 public/games/             images locales optimisées et provenance
-play/                    six pages HTML, entrées de jeu et liaison avec le lecteur
+play/                    sept pages HTML, entrées de jeu et liaison avec le lecteur
 play/pause.ts            suspension et reprise des moteurs Phaser et sons actifs
-GAMES/                   sources des six jeux ; archives originales non publiées
+GAMES/                   sources des sept jeux ; archives originales non publiées
 scripts/arcline-assets.ts musique Arcline en développement et dans le build
 scripts/dev.mjs          démarrage de Vite et du serveur Fouria
 scripts/serve.ts         serveur de production LOSG + Fouria

@@ -59,3 +59,6 @@ Use case: stylized-concept. Supporting promotional illustration for the real LUM
 
 Edit this promotional illustration only: remove ALL lettering, all words, the entire CT PASIMAL title and all yellow decorative logo strokes from the left third. Replace that left third with an empty, quiet charcoal #101418 garage wall matching the existing background. Preserve the sedan, lift, lamp, tools, workshop, clipboard and every other part exactly unchanged. Keep the 16:9 composition. No new logo, no typography, no letters or numbers anywhere. The actual application title will be rendered by HTML.
 
+## SHIFTBREAK 0.1-PROTO
+
+`shiftbreak-cover.svg` (1280 × 720) et `shiftbreak-bg.svg` (1920 × 1080) sont des compositions géométriques originales : rails clairs, blocs corail hachurés et personnage menthe à encoche. Elles reprennent les formes et les couleurs du rendu Canvas. Ce sont des visuels de catalogue, pas des captures d’une partie. Aucun asset tiers, génération raster ou chargement distant.
