@@ -23,8 +23,8 @@ before(async () => {
 });
 after(() => processServer?.kill());
 
-test('production serves LOSG and all six game entry points with compiled assets', async () => {
-  for (const path of ['/', '/play/arcline/', '/play/snake/', '/play/dustbound/', '/play/fouria/', '/play/2048/', '/play/hexgl/']) {
+test('production serves LOSG and all seven game entry points with compiled assets', async () => {
+  for (const path of ['/', '/play/shiftbreak/', '/play/arcline/', '/play/snake/', '/play/dustbound/', '/play/fouria/', '/play/2048/', '/play/hexgl/']) {
     const response = await fetch(base + path);
     assert.equal(response.status, 200, path);
     assert.match(response.headers.get('content-type'), /text\/html/);

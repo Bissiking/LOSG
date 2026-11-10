@@ -1,0 +1,11 @@
+<!-- public/games/shiftbreak-bg.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#0d191e"/>
+  <path d="M0 220H1920M0 860H1920" stroke="#c7d1c7" stroke-width="32"/>
+  <path d="M1120 220v200h130V220M1540 860V660h150v200" fill="#ff846b"/>
+  <path d="m1120 265 130 130m-130-65 90 90m330 270 150 150m-150-75 95 95" stroke="#0d191e" stroke-width="12"/>
+  <path d="M1410 780V300m0 0-35 35m35-35 35 35" fill="none" stroke="#40565b" stroke-width="5" stroke-dasharray="12 14"/>
+  <path d="M1370 740h50l18 30-18 30h-50z" fill="#7ee0d1"/>
+  <path d="M1382 781h31" stroke="#0d191e" stroke-width="8"/>
+  <path d="M840 540h200m500 0h180" stroke="#243b41" stroke-width="2"/>
+</svg>

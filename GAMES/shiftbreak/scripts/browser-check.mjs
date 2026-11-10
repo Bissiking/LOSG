@@ -1,0 +1,133 @@
+// GAMES/shiftbreak/scripts/browser-check.mjs
+// Optional browser QA: run from repository root; see ../README.md.
+import { REFERENCE_FLIPS } from '../src/levels/reference.ts';
+const { chromium } = await import(process.env.SHIFTBREAK_BROWSER_MODULE || 'playwright');
+import assert from 'node:assert/strict';
+import { mkdirSync, writeFileSync } from 'node:fs';
+mkdirSync('.impeccable/review', {recursive:true});
+mkdirSync('.cache/shiftbreak', {recursive:true});
+const browser = await chromium.launch({headless:true, executablePath:process.env.SHIFTBREAK_CHROME_PATH});
+try {
+const errors=[],results=[];
+const base=process.env.SHIFTBREAK_BASE || 'http://127.0.0.1:5173';
+const context=await browser.newContext({viewport:{width:1440,height:1000}});
+await context.addInitScript(() => {
+  let now=0, id=0, frames=new Map();
+  performance.now=()=>now;
+  window.requestAnimationFrame=callback=>{frames.set(++id,callback);return id};
+  window.cancelAnimationFrame=id=>frames.delete(id);
+  window.__advance=ms=>{now+=ms;const jobs=[...frames.values()];frames.clear();jobs.forEach(callback=>callback(now));};
+  window.__pads=[];
+  Object.defineProperty(navigator,'getGamepads',{value:()=>window.__pads});
+  Storage.prototype.setItem=()=>{throw Error('Unexpected storage write in SHIFTBREAK')};
+});
+const page=await context.newPage();
+page.on('pageerror',e=>errors.push(String(e)));
+const advance=async(ms=1000/60)=>page.evaluate(ms=>window.__advance(ms),ms);
+const screen=()=>page.locator('#shiftbreak').getAttribute('data-screen');
+const grav=()=>page.locator('#sb-gravity').textContent();
+await page.goto(base+'/play/shiftbreak/');
+await page.waitForSelector('[data-action=acknowledge]');
+await page.evaluate(()=>document.fonts.ready);
+await advance();
+assert.equal(await screen(),'warning');
+await page.screenshot({path:'.impeccable/review/warning-desktop.png',fullPage:true});
+await page.locator('[data-action=acknowledge]').click();
+await advance();
+assert.equal(await screen(),'menu');
+await page.screenshot({path:'.impeccable/review/desktop.png',fullPage:true});
+await page.locator('[data-action=controls]').click();
+await page.locator('#sb-key').selectOption('KeyK');
+await page.locator('[data-action=menu]').click();
+await page.locator('[data-action=play]').click();
+await page.keyboard.press('Space'); await advance(); assert.equal(await grav(),'Gravité : bas');
+await page.keyboard.down('k'); await advance(); assert.equal(await grav(),'Gravité : haut');
+await page.keyboard.down('k'); await advance(); assert.equal(await grav(),'Gravité : haut');
+await page.keyboard.up('k');
+await page.keyboard.press('k'); await advance(); assert.equal(await grav(),'Gravité : bas');
+results.push('configurable keyboard, hold suppression and successive inversions');
+await page.keyboard.press('p'); await advance(); assert.equal(await screen(),'paused');
+const before=await page.locator('#sb-time').textContent();
+await advance(200); assert.equal(await page.locator('#sb-time').textContent(),before);
+await page.locator('[data-action=resume]').click(); await advance(); assert.equal(await screen(),'playing');
+results.push('local pause freezes simulation; resume works');
+// Synthetic standard device, neutral gate then one edge per main-button press.
+await page.evaluate(()=>{window.__pads=[{index:0,id:'Synthetic Xbox',connected:true,mapping:'standard',axes:[0,0],buttons:Array.from({length:17},()=>({pressed:false,value:0}))}]});
+await advance();
+await page.evaluate(()=>{window.__pads[0].buttons[0]={pressed:true,value:1}});
+await advance(); assert.equal(await grav(),'Gravité : haut');
+await advance(); assert.equal(await grav(),'Gravité : haut');
+await page.evaluate(()=>{window.__pads[0].buttons[0]={pressed:false,value:0}}); await advance();
+await page.evaluate(()=>{window.__pads[0].buttons[0]={pressed:true,value:1}}); await advance(); assert.equal(await grav(),'Gravité : bas');
+await page.evaluate(()=>window.__pads=[]); await advance();
+results.push('synthetic standard gamepad neutral gate and one inversion per press');
+await page.keyboard.press('r'); await advance();
+await page.evaluate(()=>{for(let i=0;i<900;i++)window.__advance(1000/120)});
+assert.equal(await screen(),'dead');assert.equal(await page.locator('#sb-deaths').textContent(),'1');
+await page.locator('.sb-panel [data-action=restart]').click(); await advance(); assert.equal(await screen(),'playing');
+assert.equal(await page.locator('#sb-deaths').textContent(),'1');
+results.push('natural collision, death statistics and rapid restart');
+await page.keyboard.press('p'); await advance();
+await page.screenshot({path:'.impeccable/review/paused-desktop.png',fullPage:true});
+await page.locator('[data-action=menu]').click();
+await page.locator('[data-action=controls]').click(); await page.locator('#sb-key').selectOption('Space');
+await page.locator('[data-action=menu]').click(); await page.locator('[data-action=play]').click();
+const witness=REFERENCE_FLIPS;
+await page.evaluate(flips=>{
+ const ticks=new Set(flips);
+ for(let tick=0;tick<8700;tick++){
+   if(ticks.has(tick)){
+    document.querySelector('canvas').dispatchEvent(new KeyboardEvent('keydown',{code:'Space',key:' ',bubbles:true}));
+    document.querySelector('canvas').dispatchEvent(new KeyboardEvent('keyup',{code:'Space',key:' ',bubbles:true}));
+   }
+   window.__advance(1000/120);
+ }
+},witness);
+assert.equal(await screen(),'won');
+await page.screenshot({path:'.impeccable/review/finish-desktop.png',fullPage:true});
+results.push('full rendered 72.3-second level replay to finish using keyboard events');
+assert.deepEqual(await page.evaluate(()=>[localStorage.length,sessionStorage.length,document.cookie]),[0,0,'']);
+await page.reload(); await page.waitForSelector('[data-action=acknowledge]'); await advance();
+assert.equal(await screen(),'warning'); assert.equal(await page.locator('#sb-deaths').textContent(),'0');
+results.push('no storage writes; reload restores warning and clears statistics');
+// Mobile rendering and a real touch input path.
+const mobile=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+const phone=await mobile.newPage();phone.on('pageerror',e=>errors.push(String(e)));
+await phone.goto(base+'/play/shiftbreak/'); await phone.waitForSelector('[data-action=acknowledge]');
+await phone.evaluate(()=>document.fonts.ready);
+await phone.screenshot({path:'.impeccable/review/warning-mobile.png',fullPage:true});
+await phone.locator('[data-action=acknowledge]').tap();
+await phone.screenshot({path:'.impeccable/review/mobile.png',fullPage:true});
+await phone.locator('[data-action=play]').tap();
+await phone.locator('canvas').tap();
+await phone.waitForFunction(()=>document.querySelector('#sb-gravity').textContent==='Gravité : haut');
+await phone.locator('[data-action=pause]').tap();
+await phone.locator('[data-action=resume]').tap();
+await phone.screenshot({path:'.impeccable/review/mobile-playing.png',fullPage:true});
+assert.equal(await phone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+results.push('390px mobile layout and touchscreen inversion / pause / resume');
+await phone.setViewportSize({width:320,height:740});
+await phone.screenshot({path:'.impeccable/review/mobile-320.png',fullPage:true});
+assert.equal(await phone.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+results.push('320px layout without horizontal overflow');
+// Integration via the real LOSG reader, with real RAF and parent messages.
+const integrated=await browser.newContext({viewport:{width:1440,height:1000}});
+const shell=await integrated.newPage();shell.on('pageerror',e=>errors.push(String(e)));
+await shell.goto(base+'/');
+await shell.getByRole('button',{name:'Passer',exact:true}).click().catch(()=>{});
+await shell.getByRole('button',{name:'Jouer à SHIFTBREAK',exact:true}).click();
+const game=shell.frameLocator('iframe');
+await game.locator('[data-action=acknowledge]').click();await game.locator('[data-action=play]').click();
+await shell.getByRole('button',{name:/menu LOSG/i}).click();
+await shell.waitForTimeout(200);
+const pausedTime=await game.locator('#sb-time').textContent();
+await shell.waitForTimeout(250);assert.equal(await game.locator('#sb-time').textContent(),pausedTime);
+await shell.locator('.system-menu-resume').click();
+await shell.waitForTimeout(150);
+assert.equal(await game.locator('#shiftbreak').getAttribute('data-screen'),'playing');
+await shell.screenshot({path:'.impeccable/review/losg-embedded.png',fullPage:true});
+results.push('LOSG catalogue launch, system pause freeze and automatic resume');
+assert.deepEqual(errors,[]);
+console.log(JSON.stringify({results,errors},null,2));
+writeFileSync('.cache/shiftbreak/browser-results.json',JSON.stringify({base,results,errors},null,2));
+} finally { await browser.close(); }

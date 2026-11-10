@@ -360,13 +360,14 @@ test('preferences: recover from invalid JSON, unavailable storage, null and wron
   assert.deepEqual(readPreferences(null, true), defaults);
 });
 
-test('catalogue: six bundled games and one external application retain stable IDs and art', () => {
+test('catalogue: seven bundled games and one external application retain stable IDs and art', () => {
   assert.deepEqual(GAMES.map(({ id, url }) => [id, url]), [
+    ['shiftbreak', '/play/shiftbreak/'],
     ['arcline', '/play/arcline/'], ['fouria', '/play/fouria/'], ['ctpasimal', 'https://ctpasimal.mhemery.fr/'],
     ['luma-snake', '/play/snake/'], ['2048', '/play/2048/'], ['hexgl', '/play/hexgl/'], ['dustbound', '/play/dustbound/'],
   ]);
-  assert.equal(new Set(GAMES.map((game) => game.id)).size, 7);
-  assert.equal(GAMES.filter((game) => game.local).length, 6);
+  assert.equal(new Set(GAMES.map((game) => game.id)).size, 8);
+  assert.equal(GAMES.filter((game) => game.local).length, 7);
   for (const game of GAMES) {
     assert.ok(!game.demo);
     if (game.local) {

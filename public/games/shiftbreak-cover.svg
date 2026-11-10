@@ -1,0 +1,13 @@
+<!-- public/games/shiftbreak-cover.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#0d191e"/>
+  <path d="M0 108H1280M0 612H1280" stroke="#c7d1c7" stroke-width="24"/>
+  <path d="M820 108v170h110V108M1050 612V442h110v170" fill="#ff846b"/>
+  <path d="m820 140 110 110m-110-60 88 88m142 192 110 110m-110-60 92 92" stroke="#0d191e" stroke-width="10"/>
+  <path d="M680 550V178m0 0-28 28m28-28 28 28" fill="none" stroke="#40565b" stroke-width="4" stroke-dasharray="9 11"/>
+  <path d="M650 520h38l14 24-14 24h-38z" fill="#7ee0d1"/>
+  <path d="M660 553h25" stroke="#0d191e" stroke-width="7"/>
+  <g fill="#eef0df" font-family="Arial, sans-serif" font-weight="800" font-size="92" letter-spacing="-3"><text x="80" y="320">SHIFT</text><text x="80" y="413">BREAK<tspan fill="#7ee0d1">.</tspan></text></g>
+  <text x="84" y="467" fill="#b1c2be" font-family="Arial, sans-serif" font-size="22">Changez de gravité. Gardez le rythme.</text>
+  <text x="84" y="548" fill="#7ee0d1" font-family="Arial, sans-serif" font-size="18">0.1-PROTO</text>
+</svg>

@@ -37,6 +37,19 @@ export interface Game {
 
 export const GAMES: Game[] = [
   {
+    id: 'shiftbreak',
+    name: 'SHIFTBREAK',
+    players: 1,
+    description: 'Changez de gravité, gardez le rythme. Un parcours original de plateforme et de réflexes, à une seule action. Version expérimentale 0.1-PROTO, sans sauvegarde.',
+    url: '/play/shiftbreak/',
+    launchMode: 'embed',
+    local: true,
+    controls: 'Espace (configurable), A / Croix ou toucher le jeu : inverser la gravité · P / Échap / Options : pause · R : recommencer',
+    accent: '#7EE0D1',
+    cover: '/games/shiftbreak-cover.svg',
+    background: '/games/shiftbreak-bg.svg',
+  },
+  {
     id: 'arcline',
     name: 'Arcline',
     players: 2,

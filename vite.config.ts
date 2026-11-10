@@ -39,6 +39,7 @@ export default defineConfig(({ mode }) => {
         fouria: fromRoot('./play/fouria/index.html'),
         '2048': fromRoot('./play/2048/index.html'),
         hexgl: fromRoot('./play/hexgl/index.html'),
+        shiftbreak: fromRoot('./play/shiftbreak/index.html'),
       },
     },
   },
